@@ -1,0 +1,7 @@
+construct {
+    ?res ?p ?o
+}
+where {
+  <http://data.bibliotheken.nl/id/dataset/rise-centsprenten> void:rootResource ?res .
+  ?res ?p ?o
+}
