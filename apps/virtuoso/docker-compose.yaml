@@ -8,13 +8,13 @@ services:
     env_file:
       - .env
     volumes:
-      - virtuoso_data:/data
-      - shared:/dumps
+      - virtuoso_db:/database 
+      - shared:/opt/data
     ports:
       - "8890:8890"
       - "1111:1111"
 
 volumes:
-  virtuoso_data:
+  virtuoso_db:
   shared:
     external: true

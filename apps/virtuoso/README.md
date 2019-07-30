@@ -16,9 +16,10 @@ Put your preferred Virtuoso settings in `.env`. For example:
     DBA_PASSWORD=myPassword
     DEFAULT_GRAPH=http://example.org/#
     SPARQL_UPDATE=true
-    VIRT_Parameters_DirsAllowed=/data, ., /dumps, /usr/local/virtuoso-opensource/share/virtuoso/vad
+    VIRT_Parameters_DirsAllowed=.,../vad,/opt/data
 
-For more information about the possible settings: https://github.com/tenforce/docker-virtuoso/blob/master/virtuoso.ini
+
+For more information about the possible settings: http://docs.openlinksw.com/virtuoso/dbadm/
 
 ### Build and start container
 
@@ -27,9 +28,23 @@ For more information about the possible settings: https://github.com/tenforce/do
 
 Go to `http://localhost:8890/` for the web interface.
 
+
+### Install the helper scripts into the virtuoso data space
+    
+    cd scripts/virtuoso_config.sh
+
 ### Logon to container
 
-    docker exec -it -u root $(docker ps --filter name=virtuoso -q) /bin/bash
+    docker exec -it virtuoso /bin/bash
+
+### Run the loadscript the load the datafile addressed in the helper scripts
+
+    cd /opt/data
+    ./loaddata.sh
+
+
+### Adjust the scripts for your own setup <dataset.nt>,<destination graph>,etc.
+
 
 Now you can do the usual Virtuoso stuff. For example:
 
