@@ -1,0 +1,11 @@
+# Profiling query
+# List all unique properties
+select distinct ?p 
+where {
+    graph <http://data.bibliotheken.nl/centsprenten/> {
+        ?s ?p ?o
+    }
+} 
+limit 100
+
+

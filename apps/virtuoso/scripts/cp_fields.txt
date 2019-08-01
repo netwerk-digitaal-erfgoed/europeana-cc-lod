@@ -1,0 +1,29 @@
+PREFIX schema:  <http://schema.org/>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX bib:     <http://bib.schema.org/>
+
+v rdf:type        (altijd http://schema.org/VisualArtwork)
+x rdfs:label
+v bib:author || schema:author 
+v schema:name         
+v schema:about        
+v schema:author       
+x? schema:comment      
+v schema:creator      
+v schema:dateCreated
+v schema:description
+v schema:height
+x schema:identifier
+v schema:illustrator => NB niet in mappingfile van Nuno!, voorlopig contributor van gemaakt...
+v schema:image
+v schema:isPartOf
+v schema:license
+x schema:material
+v schema:publisher
+schema:spatialCoverage
+v schema:thumbnailUrl
+v schema:url
+v schema:width
+
+grant SPARQL_UPDATE to "SPARQL";
