@@ -11,7 +11,7 @@ Put your settings in `.env`. For example:
 
     VIRTUOSO_USERNAME=dba
     VIRTUOSO_PASSWORD=myPassword
-    VIRTUOSO_ENDPOINT=http://localhost:8890
+    VIRTUOSO_ENDPOINT=http://host.docker.internal:8890
 
 ### Build container
 
