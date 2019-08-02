@@ -1,19 +1,25 @@
-Sample project for creating and sharing data between apps
+Sample project for downloading, loading and mapping triples from a provider to CC-LOD's triplestore
 ==============================
 
 ## Development
 
-### Create a shared volume (if none exists)
+### Create .env file
 
-    docker volume create --name shared
+    vi .env
+
+Put your settings in `.env`. For example:
+
+    VIRTUOSO_USERNAME=dba
+    VIRTUOSO_PASSWORD=myPassword
+    VIRTUOSO_ENDPOINT=http://localhost:8890
 
 ### Build container
 
     docker-compose build --no-cache
 
-### Download some data, write to shared volume
+### Download, load and map triples
 
-    docker-compose run --rm provider ./scripts/download.sh
+    docker-compose run --rm provider ./scripts/run_cp.sh
 
 ### Logon to container
 
