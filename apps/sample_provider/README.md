@@ -3,24 +3,17 @@ Sample project for downloading, loading and mapping triples from a provider to C
 
 ## Development
 
-### Create .env file
+### Set some configuration parameters
 
-    vi .env
-
-Put your settings in `.env`. For example:
+Adjust the following parameters in `run_cp.sh`, for example:
 
     VIRTUOSO_USERNAME=dba
     VIRTUOSO_PASSWORD=myPassword
-    VIRTUOSO_ENDPOINT=http://host.docker.internal:8890
+    VIRTUOSO_ENDPOINT=http://localhost:8890
 
-### Build container
+### Start download and mapping proces
 
-    docker-compose build --no-cache
+    ./run_cp.sh
 
-### Download, load and map triples
+### See the results in the ./data dir
 
-    docker-compose run --rm provider ./scripts/run_cp.sh
-
-### Logon to container
-
-    docker-compose run --rm provider /bin/sh

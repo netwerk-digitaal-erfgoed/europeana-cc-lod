@@ -9,12 +9,11 @@ services:
       - .env
     volumes:
       - virtuoso_db:/database 
-      - shared:/opt/data
+      - ./scripts:/opt/scripts
     ports:
       - "8890:8890"
       - "1111:1111"
 
 volumes:
   virtuoso_db:
-  shared:
-    external: true
+

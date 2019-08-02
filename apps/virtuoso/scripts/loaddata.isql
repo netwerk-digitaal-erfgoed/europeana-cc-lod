@@ -1,3 +1,0 @@
-ld_dir('/opt/data','*.nt','http://data.bibliotheken.nl/centsprenten/');
-rdf_loader_run(log_enable=>3);
-checkpoint;

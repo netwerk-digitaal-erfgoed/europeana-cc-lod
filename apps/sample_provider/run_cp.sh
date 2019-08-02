@@ -1,5 +1,9 @@
 #!/bin/sh
 
+VIRTUOSO_USERNAME=<cclod user>
+VIRTUOSO_PASSWORD=<cclod password>
+VIRTUOSO_ENDPOINT=localhost:8890
+
 set -e
 
 if [ -z $VIRTUOSO_USERNAME ] || [ -z $VIRTUOSO_PASSWORD ] || [ -z $VIRTUOSO_ENDPOINT ]; then
@@ -7,8 +11,8 @@ if [ -z $VIRTUOSO_USERNAME ] || [ -z $VIRTUOSO_PASSWORD ] || [ -z $VIRTUOSO_ENDP
     exit 1
 fi
 
-dirWithRawFiles="/opt/data/kb/raw"
-dirWithEdmFiles="/opt/data/kb/edm"
+dirWithRawFiles="./data/kb/raw"
+dirWithEdmFiles="./data/kb/edm"
 filename="centsprenten.nt"
 graphUriRaw="http://data.bibliotheken.nl/centsprenten/"
 graphUriEdm="http://data.bibliotheken.nl/centsprenten_edm/"
@@ -50,7 +54,7 @@ echo "====================="
 echo "Downloading triples in graph $graphUriEdm from $VIRTUOSO_ENDPOINT"
 echo "====================="
 
-curl --digest --user $VIRTUOSO_USERNAME:$VIRTUOSO_PASSWORD \
+curl --verbose --digest --user $VIRTUOSO_USERNAME:$VIRTUOSO_PASSWORD \
      --url "$VIRTUOSO_ENDPOINT/sparql-graph-crud-auth" \
      --get --data-urlencode "graph-uri=$graphUriEdm" \
      --header "Accept: text/ntriples" \
