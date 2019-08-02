@@ -7,34 +7,51 @@ if [ -z $VIRTUOSO_USERNAME ] || [ -z $VIRTUOSO_PASSWORD ] || [ -z $VIRTUOSO_ENDP
     exit 1
 fi
 
-function urlencode() {
-    local url
-    url="$(curl -s -o /dev/null -w %{url_effective} --get --data-urlencode "$1" "")"
-    echo ${url:1} # Omit leading slash
-    return 0
-}
+dirWithRawFiles="/opt/data/kb/raw"
+dirWithEdmFiles="/opt/data/kb/edm"
+filename="centsprenten.nt"
+graphUriRaw="http://data.bibliotheken.nl/centsprenten/"
+graphUriEdm="http://data.bibliotheken.nl/centsprenten_edm/"
+providerEndpoint="http://data.bibliotheken.nl/sparql"
+
+mkdir -p $dirWithRawFiles
+mkdir -p $dirWithEdmFiles
 
 scriptsDir="$(dirname "$(readlink -f "$0")")"
-providerGraphUri="http://data.bibliotheken.nl/centsprenten/"
-providerEndpoint="http://data.bibliotheken.nl/sparql"
-queryString="$(urlencode "graph-uri=$providerGraphUri")"
-
-mkdir -p /import/kb
 
 echo "====================="
 echo "Downloading triples from $providerEndpoint"
 echo "====================="
 
-curl -H "Accept: text/ntriples" --data-urlencode "query@$scriptsDir/centsprenten.rq" $providerEndpoint > /import/kb/centsprenten.nt
+curl --data-urlencode "query@$scriptsDir/centsprenten.rq" \
+     --url $providerEndpoint \
+     --header "Accept: text/ntriples" \
+     > $dirWithRawFiles/$filename
 
 echo "====================="
-echo "Loading triples into graph $providerGraphUri of $VIRTUOSO_ENDPOINT"
+echo "Loading triples into graph $graphUriRaw of $VIRTUOSO_ENDPOINT"
 echo "====================="
 
-curl --digest --user $VIRTUOSO_USERNAME:$VIRTUOSO_PASSWORD --url "$VIRTUOSO_ENDPOINT/sparql-graph-crud-auth$queryString" -T /import/kb/centsprenten.nt
+curl --digest --user $VIRTUOSO_USERNAME:$VIRTUOSO_PASSWORD \
+     --url "$VIRTUOSO_ENDPOINT/sparql-graph-crud-auth" \
+     --get --data-urlencode "graph-uri=$graphUriRaw" \
+     --upload-file $dirWithRawFiles/$filename
 
 echo "====================="
-echo "Mapping triples in graph $providerGraphUri of $VIRTUOSO_ENDPOINT"
+echo "Mapping triples from graph $graphUriRaw to graph $graphUriEdm of $VIRTUOSO_ENDPOINT"
 echo "====================="
 
-curl --digest --user $VIRTUOSO_USERNAME:$VIRTUOSO_PASSWORD --url "$VIRTUOSO_ENDPOINT/sparql-auth" --data-urlencode "query@$scriptsDir/mapping_cp.rq" --show-error --output /dev/null
+curl --digest --user $VIRTUOSO_USERNAME:$VIRTUOSO_PASSWORD \
+     --url "$VIRTUOSO_ENDPOINT/sparql-auth" \
+     --data-urlencode "query@$scriptsDir/mapping_cp.rq" \
+     --show-error --output /dev/null
+
+echo "====================="
+echo "Downloading triples in graph $graphUriEdm from $VIRTUOSO_ENDPOINT"
+echo "====================="
+
+curl --digest --user $VIRTUOSO_USERNAME:$VIRTUOSO_PASSWORD \
+     --url "$VIRTUOSO_ENDPOINT/sparql-graph-crud-auth" \
+     --get --data-urlencode "graph-uri=$graphUriEdm" \
+     --header "Accept: text/ntriples" \
+     > $dirWithEdmFiles/$filename

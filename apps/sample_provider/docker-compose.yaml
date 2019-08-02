@@ -9,7 +9,7 @@ services:
       - .env
     volumes:
       - ".:/usr/src/app"
-      - shared:/import
+      - shared:/opt/data
 
 volumes:
   shared:
