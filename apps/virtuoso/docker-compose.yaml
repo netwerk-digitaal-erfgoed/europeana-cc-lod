@@ -1,0 +1,20 @@
+version: "3"
+services:
+  virtuoso:
+    container_name: virtuoso
+    image: virtuoso:latest
+    build: .
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - virtuoso_db:/database 
+      - shared:/opt/data
+    ports:
+      - "8890:8890"
+      - "1111:1111"
+
+volumes:
+  virtuoso_db:
+  shared:
+    external: true
