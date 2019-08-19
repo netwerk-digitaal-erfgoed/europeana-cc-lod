@@ -10,6 +10,8 @@ services:
     volumes:
       - virtuoso_db:/database 
       - ./scripts:/opt/scripts
+      - ./mappings:/opt/mappings
+      - ./data:/opt/data
     ports:
       - "8890:8890"
       - "1111:1111"

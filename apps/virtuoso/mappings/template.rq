@@ -1,0 +1,48 @@
+## This SPARQL script converts raw schema data to edm RDF expressions 
+## 
+## This script is configured for the Virtuoso iqsl command line.
+
+## disable checkpoints while running script
+checkpoint_interval(6000);
+      
+
+## tell Virtuoso to prepare for a SPARQL query
+SPARQL
+
+## prevent the overflow over the transaction log
+DEFINE sql:log-enable 3
+
+# start of the actual query
+PREFIX schema:  <http://schema.org/>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
+PREFIX dc:      <http://purl.org/dc/elements/1.1/>
+#PREFIX dcterms: <http://purl.org/dc/terms/> 
+
+INSERT INTO GRAPH <http://example.org/edm/>
+{
+    ?uri a edm:ProvidedCHO ;
+         dc:creator ?author ;
+         dc:title ?name .
+}
+WHERE { 
+  GRAPH <http://example.org/raw/> {
+	?uri a ?type .
+
+    OPTIONAL {
+      ?uri schema:author ?l_author .
+      ## use this BIND statement adding language tags 
+      ## BIND( IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
+    }
+
+    OPTIONAL { 
+      ?uri schema:name ?l_name .
+    }
+
+  }
+
+};  ## note the ';' should be here to close the SPARQL command.
+
+## enable checkpoints after finshing the script
+checkpoint_interval(120);

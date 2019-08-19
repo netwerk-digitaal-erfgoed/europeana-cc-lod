@@ -1,72 +1,107 @@
-Virtuoso for the Europeana Common Culture LOD aggregation pilot
+LOD to LOD mapping tool 
 ==============================
 
-## Development
+Created for the Europeana Common Culture LOD aggregation pilot.
 
-### Create a shared volume (if none exists)
+Setup based on SPARQL UPDATE queries on Virtuoso endpoint.
 
-    docker volume create --name shared
+## Install the `.env` file
 
-### Create .env file
+    cp env.dist .env
 
-    vi .env
+## Configure `.env` for your mapping task
 
-Put your preferred Virtuoso settings in `.env`. For example:
+    set the following parameters:
 
-    DBA_PASSWORD=myPassword
-    DEFAULT_GRAPH=http://example.org/#
-    SPARQL_UPDATE=true
-    VIRT_Parameters_DirsAllowed=.,../vad,/opt/data
+    ## name of the source file in to convert 
+    ## ntriples is expected as input format
 
-For more information about the possible settings: http://docs.openlinksw.com/virtuoso/dbadm/
+    filename=nbt.nt
 
-### Build and start container
+    ## name of the graph to load the data into (will be created if necessary)
+    
+    dest_graph=http://data.bibliotheken.nl/raw/
+    edm_graph=http://data.bibliotheken.nl/edm/
 
-    docker-compose build --no-cache
-    docker-compose up
+    ## mapping query 
+    
+    mapping_query=schema2edm.rq
 
-Go to `http://localhost:8890/` for the web interface.
+    ## host / container directories should align to docker-compose.yml
+    
+    data_dir_host=./data
+    mappings_dir_host=./data
+    
+    ## changing these require also to change the VIRT_DIRS_ALLOW parameter
 
-### Install the helper scripts into the virtuoso data space
+    data_dir=/opt/data
+    mappings_dir=/opt/mappings
+    scripts_dir=/opt/scripts
 
-    cd scripts/virtuoso_config.sh
 
-### Logon to container
+## Create a SPARQL conversion query
+
+    Create a file with SPARQL query that describes the conversion.
+    Use the 'template.rq' in the mappings directory as a starting point.
+
+    Have a look at the schema2edm.rq in the KB dir for inspiration.
+
+
+## Build the Virtuoso image
+
+    $ docker-compose build --no-cache
+
+
+
+## Start Virtuoso in background mode
+
+    $ docker-compose up -d 
+    
+    Check `http://localhost:8890/sparql` or `http://localhost:8890/conductor` to Virtuoso alive!
+
+
+
+## Run the conversion script. 
+    
+    This script loads the inputfile, runs the conversion and 
+    writes the EDM data into an outputfile in de the data dir, all in one run...
+
+    $ docker exec -it virtuoso /opt/scripts/run_all.sh 
+
+
+
+## Stop the Virtuoso container
+
+    docker-compose down
+
+
+
+## Remove cached datatbase to do a clean start
+
+    docker volume rm virtuoso_virtuoso_db
+
+    NB: The volume keeps the data even after a rebuild, 
+        removing manually is neccessary to do a real clean start 
+    
+
+
+
+### Run a shell on the container for debugging
 
     docker exec -it virtuoso /bin/bash
 
-### Run the loadscript the load the datafile addressed in the helper scripts
 
-    cd /opt/data
-    ./loaddata.sh
 
-### Adjust the scripts for your own setup <dataset.nt>,<destination graph>,etc.
+## Set the password for the sysadmin account in Virtuoso
 
-Now you can do the usual Virtuoso stuff. For example:
+    DBA_PASSWORD=myPassword (default is DBA)
 
-    isql -U dba -P {myPassword}
-    SPARQL LOAD "http://www.w3.org/ns/prov.ttl" INTO GRAPH <http://example.org/#>;
-    SPARQL SELECT * FROM <http://example.org/#> WHERE {?s ?p ?o} LIMIT 10;
-    SPARQL CLEAR GRAPH <http://example.org/#>;
 
-    # Bulk load RDF files (http://vos.openlinksw.com/owiki/wiki/VOS/VirtBulkRDFLoader)
-    ld_dir('/opt/data/', '*.ttl', 'http://example.org/#');
-    select * from DB.DBA.load_list;
-    rdf_loader_run(log_enable=>3);
-    checkpoint;
 
-    # Or per file
-    ttlp(file_to_string_output('/opt/data/someFile.ttl'), '', 'http://example.org/#', 0);
+## Optional additional parameters for tuning Virtuoso. 
 
-### API
+    NB: the current parameters are tuned for an 8Gb environment.
 
-For example:
+    VIRT_Parameters_DirsAllowed=.,../vad,/opt/data,/opt/mappings
 
-    # Load Turtle file into graph
-    curl -v -L http://www.w3.org/ns/prov.ttl > prov.ttl
-    curl -v --digest --user {username}:{myPassword} --url "http://localhost:8890/sparql-graph-crud-auth?graph-uri=http%3A%2F%2Fexample.org%2F%23" -T prov.ttl
-
-    # Query the graph
-    curl -v --url "http://localhost:8890/sparql-graph-crud?graph-uri=http%3A%2F%2Fexample.org%2F%23"
-
-For more information about the API: http://vos.openlinksw.com/owiki/wiki/VOS/VirtGraphProtocolCURLExamples
+    For more information about the possible settings: http://docs.openlinksw.com/virtuoso/dbadm/
