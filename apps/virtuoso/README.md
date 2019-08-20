@@ -29,8 +29,8 @@ Setup based on SPARQL UPDATE queries on Virtuoso endpoint.
 
     ## host / container directories should align to docker-compose.yml
     
-    data_dir_host=./data
-    mappings_dir_host=./data
+    data_dir_host=./data/<your organisation>
+    mappings_dir_host=./mappings/<your organisation>
     
     ## changing these require also to change the VIRT_DIRS_ALLOW parameter
 
@@ -68,7 +68,8 @@ Setup based on SPARQL UPDATE queries on Virtuoso endpoint.
 
     $ docker exec -it virtuoso /opt/scripts/run_all.sh 
 
-
+    The outfile(s) are created in the ./data/<your organisation> directory.
+    Check run.log in this directory for possible errors.
 
 ## Stop the Virtuoso container
 
