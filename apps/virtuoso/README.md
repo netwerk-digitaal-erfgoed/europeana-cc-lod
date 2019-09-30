@@ -1,4 +1,4 @@
-LOD to LOD mapping tool 
+LOD-to-LOD mapping tool
 ==============================
 
 Created for the Europeana Common Culture LOD aggregation pilot.
@@ -7,102 +7,89 @@ Setup based on SPARQL UPDATE queries on Virtuoso endpoint.
 
 ## Install the `.env` file
 
+    cd ./apps/virtuoso
     cp env.dist .env
 
-## Configure `.env` for your mapping task
+## Store your raw RDF dataset
 
-    set the following parameters:
+Create a directory for storing your raw RDF dataset:
 
-    ## name of the source file in to convert 
-    ## ntriples is expected as input format
+    mkdir -p ./data/example
 
-    filename=nbt.nt
+Replace `example` with your identifier, e.g. the name of your organisation.
 
-    ## name of the graph to load the data into (will be created if necessary)
-    
-    dest_graph=http://data.bibliotheken.nl/raw/
-    edm_graph=http://data.bibliotheken.nl/edm/
+Copy your dataset to the above directory, e.g.:
 
-    ## mapping query 
-    
-    mapping_query=schema2edm.rq
-
-    ## host / container directories should align to docker-compose.yml
-    
-    data_dir_host=./data/<your organisation>
-    mappings_dir_host=./mappings/<your organisation>
-    
-    ## changing these require also to change the VIRT_DIRS_ALLOW parameter
-
-    data_dir=/opt/data
-    mappings_dir=/opt/mappings
-    scripts_dir=/opt/scripts
-
+    cp /path/to/my_dataset.ttl ./data/example
 
 ## Create a SPARQL conversion query
 
-    Create a file with SPARQL query that describes the conversion.
-    Use the 'template.rq' in the mappings directory as a starting point.
+Create a directory for storing your mappings:
 
-    Have a look at the schema2edm.rq in the KB dir for inspiration.
+    mkdir -p ./mappings/example
 
+Replace `example` with your identifier, e.g. the name of your organisation.
+
+Create a file with a SPARQL query that describes the conversion:
+
+    touch ./mappings/example/my_mapping.rq
+
+Replace `my_conversion.rq` with your preferred filename.
+
+Use `./mappings/template.rq` as a starting point. Have a look at `./mappings/KB/schema2edm.rq` for inspiration.
+
+Your conversion query will contain two graph names: a graph for storing the raw, unconverted data (e.g. `http://example.org/raw/`)
+and a graph for storing the converted data (e.g. `http://example.org/edm/`).
+Please remember the names of these graphs: you'll need them later on (see underneath).
 
 ## Build the Virtuoso image
 
-    $ docker-compose build --no-cache
-
-
+    docker-compose build --no-cache
 
 ## Start Virtuoso in background mode
 
-    $ docker-compose up -d 
-    
-    Check `http://localhost:8890/sparql` or `http://localhost:8890/conductor` to Virtuoso alive!
+    docker-compose up -d
 
+Check `http://localhost:8890/sparql` or `http://localhost:8890/conductor` to see whether Virtuoso is alive.
 
+## Run the conversion script
 
-## Run the conversion script. 
-    
-    This script loads the inputfile, runs the conversion and 
-    writes the EDM data into an outputfile in de the data dir, all in one run...
+This script loads the input file, runs the mapping and stores the data into an output file in the `data/example` directory:
 
-    $ docker exec -it virtuoso /opt/scripts/run_all.sh 
+    docker exec -it virtuoso /bin/bash /opt/scripts/run_all.sh \
+        --data_dir /opt/data/example \
+        --input_file my_dataset.ttl \
+        --mappings_dir /opt/mappings/example \
+        --mapping_file my_mapping.rq \
+        --graph_raw http://example.org/raw/ \
+        --graph_edm http://example.org/edm/
 
-    The outfile(s) are created in the ./data/<your organisation> directory.
-    Check run.log in this directory for possible errors.
+Replace the command line arguments with the names of your directories and files.
+
+Check file `./data/example/run.log` if you would like to inspect the output of the run.
 
 ## Stop the Virtuoso container
 
     docker-compose down
 
-
-
-## Remove cached datatbase to do a clean start
+## Remove cached database to do a clean start
 
     docker volume rm virtuoso_virtuoso_db
 
-    NB: The volume keeps the data even after a rebuild, 
-        removing manually is neccessary to do a real clean start 
-    
+NB: The volume keeps the data even after a rebuild, removing manually is neccessary to do a real clean start.
 
-
-
-### Run a shell on the container for debugging
+## Run a shell on the container for debugging
 
     docker exec -it virtuoso /bin/bash
-
-
 
 ## Set the password for the sysadmin account in Virtuoso
 
     DBA_PASSWORD=myPassword (default is DBA)
 
+## Optional additional parameters for tuning Virtuoso
 
-
-## Optional additional parameters for tuning Virtuoso. 
-
-    NB: the current parameters are tuned for an 8Gb environment.
+NB: the current parameters are tuned for an 8Gb environment.
 
     VIRT_Parameters_DirsAllowed=.,../vad,/opt/data,/opt/mappings
 
-    For more information about the possible settings: http://docs.openlinksw.com/virtuoso/dbadm/
+For more information about the possible settings: http://docs.openlinksw.com/virtuoso/dbadm/

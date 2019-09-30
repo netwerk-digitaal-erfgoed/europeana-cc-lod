@@ -1,29 +1,33 @@
 #!/bin/bash
 
-# assume:
-# - the environment variabels are set correctly in .environment
-# - virtuoso is up and running with fresh database volume
+set -e
 
-## would make sense to do some tests before continuing 
+scripts_dir=$(cd $(dirname $0) && pwd -P)
+source $scripts_dir/utils.sh
 
-# empty log file
-cat /dev/null >> run.log
+# Parse command line arguments
+while [[ "$#" > 1 ]]; do case $1 in
+    --data_dir) data_dir="$2";;
+    --input_file) input_file="$2";;
+    --mappings_dir) mappings_dir="$2";;
+    --mapping_file) mapping_file="$2";;
+    --graph_raw) graph_raw="$2";;
+    --graph_edm) graph_edm="$2";;
+    *) break;;
+    esac; shift; shift
+done
 
-# make sure Virtuoso is up
-echo "Wait a while to be sure that Virtuoso is up and running..."
-sleep 10
+checkArgAndExitOnError "data_dir" $data_dir
+checkArgAndExitOnError "input_file" $input_file
+checkArgAndExitOnError "mappings_dir" $mappings_dir
+checkArgAndExitOnError "mapping_file" $mapping_file
+checkArgAndExitOnError "graph_raw" $graph_raw
+checkArgAndExitOnError "graph_edm" $graph_edm
 
-# load the data
-echo -e "\nLoading input_file $input_file from directory $data_dir_host..."
-$scripts_dir/loaddata.sh >> $data_dir/run.log
-echo "Data loaded into graph $dest_graph"
+rm -rf $data_dir/run.log
 
-# map the data
-echo -e "\nCreating EDM data using $mapping_query from $mapping_dir_host..."
-$scripts_dir/mapdata.sh >> $data_dir/run.log
-echo "Data mapped into graph $edm_graph"
+$scripts_dir/load_data.sh --data_dir $data_dir --input_file $input_file --graph_raw $graph_raw >> $data_dir/run.log
 
-# store the convert data in a ttl file in the data dir
-echo -e "\nDump the edm graph to file(s) ${output_base_name}*.ttl..."
-$scripts_dir/storedata.sh >> $data_dir/run.log
-echo "Data writen to outputfile in turtle format into directory $data_dir_host"
+$scripts_dir/map_data.sh --mappings_dir $mappings_dir --mapping_file $mapping_file --graph_edm $graph_edm >> $data_dir/run.log
+
+$scripts_dir/store_data.sh --data_dir $data_dir --input_file $input_file --graph_edm $graph_edm >> $data_dir/run.log
