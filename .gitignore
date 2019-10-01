@@ -2,6 +2,7 @@
 */.DS_Store
 */*/.DS_Store
 *.env
-apps/virtuoso/data
+apps/virtuoso/data/*/
+!apps/virtuoso/data/.gitkeep
 apps/virtuoso/mappings/*/
 !apps/virtuoso/mappings/KB
