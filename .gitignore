@@ -2,3 +2,6 @@
 */.DS_Store
 */*/.DS_Store
 *.env
+apps/virtuoso/data
+apps/virtuoso/mappings/*/
+!apps/virtuoso/mappings/KB
