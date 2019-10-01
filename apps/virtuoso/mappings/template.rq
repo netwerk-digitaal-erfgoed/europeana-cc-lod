@@ -8,7 +8,7 @@ checkpoint_interval(6000);
 # Tell Virtuoso to prepare for a SPARQL query
 SPARQL
 
-# Prevent the overflow over the transaction log
+# Prevent overflow of the transaction log
 DEFINE sql:log-enable 3
 
 # Start of the actual query

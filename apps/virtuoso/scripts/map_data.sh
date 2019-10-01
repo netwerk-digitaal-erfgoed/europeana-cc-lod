@@ -19,6 +19,11 @@ check_env_and_exit_on_error "DBA_PASSWORD", $DBA_PASSWORD
 
 print_progress "Mapping data using '$mapping_file'..."
 
+# Explicitly remove old data in the graph before loading new data
+isql 1111 dba $DBA_PASSWORD <<EOF
+SPARQL DROP SILENT GRAPH <$graph_edm>;
+EOF
+
 # For the mapping use the SPARQL insert query in the mapping file
 isql 1111 dba $DBA_PASSWORD $mapping_file
 

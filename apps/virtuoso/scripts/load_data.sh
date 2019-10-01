@@ -27,11 +27,16 @@ fi
 data_dir=$(dirname "$input_file")
 basename_input_file=$(basename "$input_file")
 
-# Load the data into the graph
+# First remove old data, if any, than load the new data
 isql 1111 dba $DBA_PASSWORD <<EOF
+SPARQL DROP SILENT GRAPH <$graph_raw>;
+-- Delete previous loader list, if any
+DELETE FROM DB.DBA.load_list;
 ld_dir('$data_dir','$basename_input_file','$graph_raw');
 rdf_loader_run(log_enable=>3);
 checkpoint;
+-- Check for errors in the loader list
+SELECT * FROM DB.DBA.load_list WHERE ll_state <> 2;
 EOF
 
 print_progress "Loaded data into graph '$graph_raw'"
