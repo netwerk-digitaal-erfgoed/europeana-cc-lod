@@ -25,13 +25,13 @@ if [ ! -f "$input_file" ]; then
 fi
 
 data_dir=$(dirname "$input_file")
+basename_input_file=$(basename "$input_file")
 
-# Start the Virtuoso commandline mode
+# Load the data into the graph
 isql 1111 dba $DBA_PASSWORD <<EOF
-ld_dir('$data_dir','$input_file','$graph_raw');
+ld_dir('$data_dir','$basename_input_file','$graph_raw');
 rdf_loader_run(log_enable=>3);
 checkpoint;
-exit;
 EOF
 
 print_progress "Loaded data into graph '$graph_raw'"
