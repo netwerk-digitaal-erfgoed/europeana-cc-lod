@@ -1,14 +1,13 @@
 version: "3"
 services:
   virtuoso:
+    image: openlink/virtuoso-opensource-7:latest
     container_name: virtuoso
-    image: virtuoso:latest
-    build: .
     restart: always
     env_file:
       - .env
     volumes:
-      - virtuoso_db:/database 
+      - virtuoso_db:/database
       - ./scripts:/opt/scripts
       - ./mappings:/opt/mappings
       - ./data:/opt/data
@@ -18,4 +17,3 @@ services:
 
 volumes:
   virtuoso_db:
-
