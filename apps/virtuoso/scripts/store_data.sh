@@ -18,16 +18,16 @@ check_arg_and_exit_on_error "graph_edm" $graph_edm
 check_env_and_exit_on_error "DBA_PASSWORD", $DBA_PASSWORD
 
 data_dir=$(dirname "$input_file")
-output_base_name=$(echo "$input_file" | cut -f 1 -d '.')"_edm"
+basename_output_files=$(echo "$input_file" | cut -f 1 -d '.')"_edm"
 
-print_progress "Storing data in graph '$graph_edm' into files ${output_base_name}*.ttl..."
+print_progress "Storing data in graph '$graph_edm' into files ${basename_output_files}*.ttl..."
 
 # Load a stored procedure for dumping a graph to a Turtle file
 isql 1111 dba $DBA_PASSWORD ${scripts_dir}/dump_one_graph.sql
 
 # Use the stored procedure to dump the data (in multiple Turtle files if needed)
 isql 1111 dba $DBA_PASSWORD << EOF
-dump_one_graph('$graph_edm','$output_base_name',100000000);
+dump_one_graph('$graph_edm','$basename_output_files',100000000);
 EOF
 
 print_progress "Stored data in graph '$graph_edm' into files in directory '$data_dir'"
