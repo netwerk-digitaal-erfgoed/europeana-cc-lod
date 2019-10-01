@@ -14,12 +14,17 @@ while [[ "$#" > 1 ]]; do case $1 in
     esac; shift; shift
 done
 
-checkArgAndExitOnError "data_dir" $data_dir
-checkArgAndExitOnError "input_file" $input_file
-checkArgAndExitOnError "graph_raw" $graph_raw
-checkEnvAndExitOnError "DBA_PASSWORD" $DBA_PASSWORD
+check_arg_and_exit_on_error "data_dir" $data_dir
+check_arg_and_exit_on_error "input_file" $input_file
+check_arg_and_exit_on_error "graph_raw" $graph_raw
+check_env_and_exit_on_error "DBA_PASSWORD" $DBA_PASSWORD
 
-printProgress "Loading data from '$input_file' in directory '$data_dir'..."
+print_progress "Loading data from '$input_file' in directory '$data_dir'..."
+
+# Check explicitly - isql does not report errors in case of missing files
+if [ ! -f "$data_dir/$input_file" ]; then
+    print_error_and_exit "File '$data_dir/$input_file' does not exist"
+fi
 
 # Start the Virtuoso commandline mode
 isql 1111 dba $DBA_PASSWORD <<EOF
@@ -29,4 +34,4 @@ checkpoint;
 exit;
 EOF
 
-printProgress "Loaded data into graph '$graph_raw'"
+print_progress "Loaded data into graph '$graph_raw'"

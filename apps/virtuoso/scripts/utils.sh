@@ -2,25 +2,29 @@
 
 set -e
 
-function printError() {
-    echo $'\e[1;31m'$*$'\e[0m' >>/dev/stderr
+function print_error() {
+    echo $* >>/dev/stderr
 }
 
-function printProgress() {
-    echo $'\e[1;32m'$*$'\e[0m' >>/dev/stderr
+function print_error_and_exit() {
+    print_error $*
+    exit 1
 }
 
-function checkArgAndExitOnError() {
+function print_progress() {
+    echo $* >>/dev/stderr
+}
+
+function check_arg_and_exit_on_error() {
     if [ -z "$2" ]; then
-        printError "Error: missing argument: $1"
-        printError "Usage: $0 --$1 {$1}"
+        print_error "Error: missing argument: $1"
+        print_error "Usage: $0 --$1 {$1}"
         exit 1
     fi
 }
 
-function checkEnvAndExitOnError() {
+function check_env_and_exit_on_error() {
     if [ -z "$2" ]; then
-        printError "Error: missing environment variable $1"
-        exit 1
+        print_error_and_exit "Error: missing environment variable $1"
     fi
 }

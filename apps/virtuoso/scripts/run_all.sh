@@ -17,17 +17,19 @@ while [[ "$#" > 1 ]]; do case $1 in
     esac; shift; shift
 done
 
-checkArgAndExitOnError "data_dir" $data_dir
-checkArgAndExitOnError "input_file" $input_file
-checkArgAndExitOnError "mappings_dir" $mappings_dir
-checkArgAndExitOnError "mapping_file" $mapping_file
-checkArgAndExitOnError "graph_raw" $graph_raw
-checkArgAndExitOnError "graph_edm" $graph_edm
+check_arg_and_exit_on_error "data_dir" $data_dir
+check_arg_and_exit_on_error "input_file" $input_file
+check_arg_and_exit_on_error "mappings_dir" $mappings_dir
+check_arg_and_exit_on_error "mapping_file" $mapping_file
+check_arg_and_exit_on_error "graph_raw" $graph_raw
+check_arg_and_exit_on_error "graph_edm" $graph_edm
 
-rm -rf $data_dir/run.log
+log_file=$data_dir/run.log
+rm -f $log_file
+mkdir -p $data_dir
 
-$scripts_dir/load_data.sh --data_dir $data_dir --input_file $input_file --graph_raw $graph_raw >> $data_dir/run.log
+$scripts_dir/load_data.sh --data_dir $data_dir --input_file $input_file --graph_raw $graph_raw >> $log_file
 
-$scripts_dir/map_data.sh --mappings_dir $mappings_dir --mapping_file $mapping_file --graph_edm $graph_edm >> $data_dir/run.log
+$scripts_dir/map_data.sh --mappings_dir $mappings_dir --mapping_file $mapping_file --graph_edm $graph_edm >> $log_file
 
-$scripts_dir/store_data.sh --data_dir $data_dir --input_file $input_file --graph_edm $graph_edm >> $data_dir/run.log
+$scripts_dir/store_data.sh --data_dir $data_dir --input_file $input_file --graph_edm $graph_edm >> $log_file

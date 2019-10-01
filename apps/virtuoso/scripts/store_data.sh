@@ -14,14 +14,14 @@ while [[ "$#" > 1 ]]; do case $1 in
     esac; shift; shift
 done
 
-checkArgAndExitOnError "data_dir" $data_dir
-checkArgAndExitOnError "input_file" $input_file
-checkArgAndExitOnError "graph_edm" $graph_edm
-checkEnvAndExitOnError "DBA_PASSWORD", $DBA_PASSWORD
+check_arg_and_exit_on_error "data_dir" $data_dir
+check_arg_and_exit_on_error "input_file" $input_file
+check_arg_and_exit_on_error "graph_edm" $graph_edm
+check_env_and_exit_on_error "DBA_PASSWORD", $DBA_PASSWORD
 
 output_base_name=$(echo "$input_file" | cut -f 1 -d '.')"_edm"
 
-printProgress "Storing data in graph '$graph_edm' into files ${output_base_name}*.ttl..."
+print_progress "Storing data in graph '$graph_edm' into files ${output_base_name}*.ttl..."
 
 # Load a stored procedure for dumping a graph to a Turtle file
 isql 1111 dba $DBA_PASSWORD ${scripts_dir}/dump_one_graph.sql
@@ -31,4 +31,4 @@ isql 1111 dba $DBA_PASSWORD << EOF
 dump_one_graph('$graph_edm','$data_dir/$output_base_name',100000000);
 EOF
 
-printProgress "Stored data in graph '$graph_edm' into files in directory '$data_dir'"
+print_progress "Stored data in graph '$graph_edm' into files in directory '$data_dir'"
