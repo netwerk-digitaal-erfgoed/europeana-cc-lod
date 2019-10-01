@@ -1,4 +1,4 @@
-LOD-to-LOD mapping tool
+LOD-to-LOD conversion tool
 ==============================
 
 Created for the Europeana Common Culture LOD aggregation pilot.
@@ -38,9 +38,8 @@ Replace `my_conversion.rq` with your preferred filename.
 
 Use `./mappings/template.rq` as a starting point. Have a look at `./mappings/KB/schema2edm.rq` for inspiration.
 
-Your conversion query will contain two graph names: a graph for storing the raw, unconverted data (e.g. `http://example.org/raw/`)
-and a graph for storing the converted data (e.g. `http://example.org/edm/`).
-Please remember the names of these graphs: you'll need them later on (see underneath).
+Make sure that your conversion query contains two graph names: a graph for storing the raw data (`http://example.org/raw/`)
+and a graph for storing the converted data (`http://example.org/edm/`). The LOD conversion, later on, assumes these graphs exist.
 
 ## Build the Virtuoso image
 
@@ -52,41 +51,39 @@ Please remember the names of these graphs: you'll need them later on (see undern
 
 Check `http://localhost:8890/sparql` or `http://localhost:8890/conductor` to see whether Virtuoso is alive.
 
-## Run the conversion script
+## Run the conversion
 
 This script loads the input file, runs the mapping and stores the data into an output file in the `data/example` directory:
 
-    docker exec -it virtuoso /bin/bash /opt/scripts/run_all.sh \
-        --data_dir /opt/data/example \
-        --input_file my_dataset.ttl \
-        --mappings_dir /opt/mappings/example \
-        --mapping_file my_mapping.rq \
-        --graph_raw http://example.org/raw/ \
-        --graph_edm http://example.org/edm/
+    docker exec -it virtuoso /bin/bash /opt/scripts/convert.sh \
+        --input_file /opt/data/example/my_dataset.ttl \
+        --mapping_file /opt/mappings/example/my_mapping.rq
 
-Replace the command line arguments with the names of your directories and files.
+Replace the command line arguments with the names of your files. Note that the paths to these files are relative to the Docker container, *not* your localhost.
 
-Check file `./data/example/run.log` if you would like to inspect the output of the run.
+Check file `./data/example/run.log` if you would like to inspect the output of the run, e.g. `cat ./data/example/run.log`
 
 ## Stop the Virtuoso container
 
     docker-compose down
 
-## Remove cached database to do a clean start
+## Troubleshooting and advanced configuration
+
+### Remove cached database to do a clean start
 
     docker volume rm virtuoso_virtuoso_db
 
 NB: The volume keeps the data even after a rebuild, removing manually is neccessary to do a real clean start.
 
-## Run a shell on the container for debugging
+### Run a shell on the container for debugging
 
     docker exec -it virtuoso /bin/bash
 
-## Set the password for the sysadmin account in Virtuoso
+### Set the password for the sysadmin account in Virtuoso
 
-    DBA_PASSWORD=myPassword (default is DBA)
+    DBA_PASSWORD=myPassword # Default is DBA
 
-## Optional additional parameters for tuning Virtuoso
+### Optional additional parameters for tuning Virtuoso
 
 NB: the current parameters are tuned for an 8Gb environment.
 
