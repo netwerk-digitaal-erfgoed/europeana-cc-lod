@@ -1,0 +1,4 @@
+data/*
+!data/.gitkeep
+mappings/*
+!mappings/examples
