@@ -18,7 +18,7 @@ check_arg_and_exit_on_error "graph_edm" $graph_edm
 check_env_and_exit_on_error "DBA_PASSWORD", $DBA_PASSWORD
 
 data_dir=$(dirname "$input_file")
-basename_output_files=$(echo "$input_file" | cut -f 1 -d '.')"_edm"
+basename_output_files="${input_file%.*}_edm" # Strip extension, append "_edm"
 
 print_progress "Storing data in graph '$graph_edm' into files ${basename_output_files}*.ttl..."
 
