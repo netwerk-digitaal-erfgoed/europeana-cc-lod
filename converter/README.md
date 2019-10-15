@@ -29,6 +29,12 @@ Use `./mappings/examples/template.rq` as a starting point. For inspiration, have
 Make sure that your mapping query contains two graph names: a graph for storing the raw data (`http://example.org/raw/`)
 and a graph for storing the converted data (`http://example.org/edm/`). The LOD conversion, later on, assumes these graphs exist.
 
+## Create a shared volume (if none exists)
+
+The volume is used by the applications that make up this project.
+
+    docker volume create --name europeana_cc_lod_share
+
 ## Build the Virtuoso image
 
     docker-compose build --no-cache
@@ -43,23 +49,31 @@ Check `http://localhost:8890/sparql` or `http://localhost:8890/conductor` to see
 
 This script loads the input file, runs the mapping and stores the data into an output file in the `data` directory:
 
-    docker exec -it virtuoso /bin/bash /opt/scripts/convert.sh \
-        --input_file /opt/data/my_dataset.ttl \
-        --mapping_file /opt/mappings/my_mapping.rq
+    docker exec -it virtuoso /bin/bash /opt/converter/scripts/convert.sh \
+        --input-file /opt/converter/data/my_dataset.ttl \
+        --mapping-file /opt/converter/mappings/my_mapping.rq \
+        --output-dir /opt/converter/data/converted
 
 Replace the command line arguments with the names of your files. Note that the paths to these files are relative to the Docker container, *not* your localhost.
 
-Check file `./data/run.log` if you would like to inspect the output of the run, e.g. `cat ./data/run.log`
+Check file `./data/converted/run.log` if you would like to inspect the output of the run.
+
+Alternatively, you can convert data that has been prepared by the crawler. This data resides in the shared directory `/opt/europeana_cc_lod_share/crawled`:
+
+    docker exec -it virtuoso /bin/bash /opt/converter/scripts/convert.sh \
+        --input-file /opt/europeana_cc_lod_share/crawled/my_dataset.ttl \
+        --mapping-file /opt/converter/mappings/my_mapping.rq \
+        --output-dir /opt/europeana_cc_lod_share/converted
 
 ## Stop the Virtuoso container
 
-    docker-compose down
+    docker-compose stop
 
 ## Troubleshooting and advanced configuration
 
 ### Remove cached database to do a clean start
 
-    docker volume rm virtuoso_virtuoso_db
+    docker volume rm converter_virtuoso_db
 
 NB: The volume keeps the data even after a rebuild, removing manually is neccessary to do a real clean start.
 
@@ -75,6 +89,6 @@ NB: The volume keeps the data even after a rebuild, removing manually is neccess
 
 NB: the current parameters are tuned for an 8Gb environment.
 
-    VIRT_Parameters_DirsAllowed=.,../vad,/opt/data,/opt/mappings
+    VIRT_Parameters_DirsAllowed=.,../vad,/opt/converter,/opt/europeana_cc_lod_share
 
 For more information about the possible settings: http://docs.openlinksw.com/virtuoso/dbadm/
