@@ -8,12 +8,13 @@ services:
       - .env
     volumes:
       - virtuoso_db:/database
-      - ./scripts:/opt/scripts
-      - ./mappings:/opt/mappings
-      - ./data:/opt/data
+      - europeana_cc_lod_share:/opt/europeana_cc_lod_share
+      - .:/opt/converter
     ports:
       - "8890:8890"
       - "1111:1111"
 
 volumes:
   virtuoso_db:
+  europeana_cc_lod_share:
+    external: true

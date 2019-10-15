@@ -7,14 +7,14 @@ source $scripts_dir/utils.sh
 
 # Parse command line arguments
 while [[ "$#" > 1 ]]; do case $1 in
-    --mapping_file) mapping_file="$2";;
-    --graph_edm) graph_edm="$2";;
+    --mapping-file) mapping_file="$2";;
+    --graph-edm) graph_edm="$2";;
     *) break;;
     esac; shift; shift
 done
 
-check_arg_and_exit_on_error "mapping_file" $mapping_file
-check_arg_and_exit_on_error "graph_edm" $graph_edm
+check_arg_and_exit_on_error "mapping-file" $mapping_file
+check_arg_and_exit_on_error "graph-edm" $graph_edm
 check_env_and_exit_on_error "DBA_PASSWORD", $DBA_PASSWORD
 
 print_progress "Mapping data using '$mapping_file'..."
