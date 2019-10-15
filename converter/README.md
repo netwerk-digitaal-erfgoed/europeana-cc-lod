@@ -16,17 +16,17 @@ Copy your dataset to the `data` directory, e.g.:
 
     cp /path/to/my_dataset.ttl ./data
 
-## Create a SPARQL conversion query
+## Create a SPARQL mapping query
 
-Create a file with a SPARQL query that describes the conversion:
+Create a file with a SPARQL query that describes the mapping:
 
     touch ./mappings/my_mapping.rq
 
-Replace `my_conversion.rq` with your preferred filename.
+Replace `my_mapping.rq` with your preferred filename.
 
-Use `./mappings/examples/template.rq` as a starting point. Have a look at `./mappings/examples/kb_schema2edm.rq` for inspiration.
+Use `./mappings/examples/template.rq` as a starting point. For inspiration, have a look at a mapping query of the National Library of the Netherlands (KB), `./mappings/examples/kb_schema2edm.rq`.
 
-Make sure that your conversion query contains two graph names: a graph for storing the raw data (`http://example.org/raw/`)
+Make sure that your mapping query contains two graph names: a graph for storing the raw data (`http://example.org/raw/`)
 and a graph for storing the converted data (`http://example.org/edm/`). The LOD conversion, later on, assumes these graphs exist.
 
 ## Build the Virtuoso image
