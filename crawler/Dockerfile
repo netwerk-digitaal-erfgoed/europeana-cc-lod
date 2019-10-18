@@ -1,15 +1,16 @@
-#
 # Build stage
-#
 FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/crawler-src/src
-COPY libs /home/crawler-src/libs
-COPY pom.xml /home/crawler-src
-RUN mvn -f /home/crawler-src/pom.xml clean assembly:assembly
 
-#
+WORKDIR /app/crawler
+
+COPY src ./src
+COPY libs ./libs
+COPY pom.xml .
+RUN mvn -f ./pom.xml clean assembly:assembly
+
 # Package stage
-#
-FROM openjdk:???
-COPY --from=build /home/crawler-src/target/cc-lod-crawler-DockerApplication /home/crawler/
-ENTRYPOINT ["/bin/sh","/home/crawler/ScriptTestDocker.sh"]
+FROM openjdk:11-jre-slim
+
+WORKDIR /app/crawler
+
+COPY --from=build /app/crawler/target/cc-lod-crawler-DockerApplication .
