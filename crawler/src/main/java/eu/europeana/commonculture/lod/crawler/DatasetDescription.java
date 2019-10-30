@@ -14,11 +14,16 @@ import eu.europeana.commonculture.lod.crawler.rdf.RdfUtil;
 
 
 public class DatasetDescription {
+	String datasetUri;
+	Model model;
+	
+	public DatasetDescription(String datasetUri) throws AccessException, InterruptedException, IOException {
+		this.datasetUri = datasetUri;
+		model = RdfUtil.readRdfFromUri(datasetUri);
+	}
 
-	public static List<String> listRootResources(String datasetUri) throws AccessException, InterruptedException, IOException{
+	public List<String> listRootResources() throws AccessException, InterruptedException, IOException{
 		ArrayList<String> uris= new ArrayList<String>();
-		Model model = RdfUtil.readRdfFromUri(datasetUri);
-		if (model==null ) return uris;
 		Resource  dsResource=model.createResource(datasetUri);
 		if (dsResource==null ) return uris;
 		StmtIterator voidRootResources = dsResource.listProperties(RdfReg.VOID_ROOT_RESOURCE);
