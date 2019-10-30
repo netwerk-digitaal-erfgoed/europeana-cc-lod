@@ -47,7 +47,6 @@ public class CommandLineInterface {
 		    } 
 		} catch( ParseException exp ) {
 			argsOk=false;
-			exp.printStackTrace();
 		}
 	    String result=null;
 	    String logFilePath=null;
@@ -68,7 +67,7 @@ public class CommandLineInterface {
 	    	HelpFormatter formatter = new HelpFormatter();
 	    	formatter.printUsage( w, 120, "crawler.sh", options );
 	    	w.close();
-	    	result="INVALID PARAMETERS\nUsage:\n"+sw.toString();
+	    	result="INVALID PARAMETERS\n"+sw.toString();
 	    }
 	    System.out.println(result);
 	    if(logFilePath!=null) {
