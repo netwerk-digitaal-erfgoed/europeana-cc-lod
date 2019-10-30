@@ -7,5 +7,6 @@ do
 done
 export CLASSPATH=$CLASSPATH
 
-cd /opt/crawler
 java -Djsse.enableSNIExtension=false -Dsun.net.inetaddr.ttl=0 -Xmx16G -cp classes:$CLASSPATH eu.europeana.commonculture.lod.crawler.TestDocker $1 $2 $3 $4
+
+echo "Test" > /opt/europeana_cc_lod_share/crawled/test.txt
