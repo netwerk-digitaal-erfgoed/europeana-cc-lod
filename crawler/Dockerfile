@@ -6,7 +6,7 @@ WORKDIR /app/crawler
 COPY src ./src
 COPY libs ./libs
 COPY pom.xml .
-RUN mvn -f ./pom.xml clean assembly:assembly
+RUN mvn --quiet -e -f ./pom.xml clean assembly:assembly
 
 # Package stage
 FROM openjdk:11-jre-slim
