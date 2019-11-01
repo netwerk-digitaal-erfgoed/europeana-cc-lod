@@ -35,11 +35,11 @@ The volume is used by the applications that make up this project.
 
     docker volume create --name europeana_cc_lod_share
 
-## Build the Virtuoso image
+## Build the container
 
     docker-compose build --no-cache
 
-## Start Virtuoso in background mode
+## Start the container in background mode
 
     docker-compose up -d
 
@@ -49,7 +49,7 @@ Check `http://localhost:8890/sparql` or `http://localhost:8890/conductor` to see
 
 This script loads the input file, runs the mapping and stores the data into an output file in the `data` directory:
 
-    docker exec -it virtuoso /bin/bash /opt/converter/scripts/convert.sh \
+    docker exec -it converter /bin/bash /opt/converter/scripts/convert.sh \
         --input-file /opt/converter/data/my_dataset.ttl \
         --mapping-file /opt/converter/mappings/my_mapping.rq \
         --output-dir /opt/converter/data/converted
@@ -60,12 +60,12 @@ Check file `./data/converted/run.log` if you would like to inspect the output of
 
 Alternatively, you can convert data that has been prepared by the crawler. This data resides in the shared directory `/opt/europeana_cc_lod_share/crawled`:
 
-    docker exec -it virtuoso /bin/bash /opt/converter/scripts/convert.sh \
-        --input-file /opt/europeana_cc_lod_share/crawled/my_dataset.ttl \
+    docker exec -it converter /bin/bash /opt/converter/scripts/convert.sh \
+        --input-file /opt/europeana_cc_lod_share/crawled/centsprenten.nt \
         --mapping-file /opt/converter/mappings/my_mapping.rq \
         --output-dir /opt/europeana_cc_lod_share/converted
 
-## Stop the Virtuoso container
+## Stop the container
 
     docker-compose stop
 
@@ -79,7 +79,7 @@ NB: The volume keeps the data even after a rebuild, removing manually is neccess
 
 ### Run a shell on the container for debugging
 
-    docker exec -it virtuoso /bin/bash
+    docker exec -it converter /bin/bash
 
 ### Set the password for the sysadmin account in Virtuoso
 

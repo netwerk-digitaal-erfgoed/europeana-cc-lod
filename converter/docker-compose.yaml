@@ -2,7 +2,7 @@ version: "3"
 services:
   virtuoso:
     image: openlink/virtuoso-opensource-7:latest
-    container_name: virtuoso
+    container_name: converter
     restart: always
     env_file:
       - .env
