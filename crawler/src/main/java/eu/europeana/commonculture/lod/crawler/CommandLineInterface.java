@@ -73,7 +73,7 @@ public class CommandLineInterface {
 	    if(logFilePath!=null) {
 	    	try {
 				File logFile = new File(logFilePath);
-				if(!logFile.getParentFile().exists())
+				if(logFile.getParentFile()!=null && !logFile.getParentFile().exists())
 					logFile.getParentFile().mkdirs();
 				FileUtils.write(logFile, result, "UTF-8");
 			} catch (IOException e) {
