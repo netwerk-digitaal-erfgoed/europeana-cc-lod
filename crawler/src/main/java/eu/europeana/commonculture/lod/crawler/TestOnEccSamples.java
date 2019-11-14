@@ -99,8 +99,6 @@ public class TestOnEccSamples {
 			} else { //try a Distribution of the dataset
 				throw new RuntimeException("TODO");
 			}
-			
-			
 		} catch (AccessException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

@@ -6,13 +6,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.rdf.model.Statement;
-import org.apache.jena.rdf.model.StmtIterator;
 import org.apache.jena.riot.Lang;
 
 import com.ontologycentral.ldspider.Crawler;
@@ -35,31 +28,38 @@ import eu.europeana.commonculture.lod.crawler.rdf.RdfReg;
 import eu.europeana.commonculture.lod.crawler.rdf.RdfUtil;
 
 public class LinkedDataCrawler {
-	String uri;
+	String datasetUri;
 	int maxDepth = 0;
 	int maxSeedsPerSet = -1;
 
 	public LinkedDataCrawler(String uri) {
 		super();
-		this.uri = uri;
+		this.datasetUri = uri;
 	}
 
 	public LinkedDataCrawler(String uri, int maxDepth, int maxSeedsPerSet) {
 		super();
-		this.uri = uri;
+		this.datasetUri = uri;
 		this.maxDepth = maxDepth;
 		this.maxSeedsPerSet = maxSeedsPerSet;
 	}
 
 	public void crawl(File outFile) throws IOException, AccessException, InterruptedException {
-		DatasetDescription dataset = new DatasetDescription(uri);
+		DatasetDescription dataset = new DatasetDescription(datasetUri);
 		dataset.listRootResources();
 
 		// configure crawler with the URIs from jena model
 		int totalSeeds = 0;
 		Crawler crawler = new Crawler(5);
 //			Crawler crawler = new Crawler(CrawlerConstants.DEFAULT_NB_THREADS);
+		
 		Frontier frontier = new BasicFrontier();
+		try {
+			//This may be need changing in the future, if we decide to go deeper than depth 1
+			frontier.add(new URI(datasetUri));
+		} catch (URISyntaxException e) {
+			System.out.println("Warning: Resource not crawled due to an invalid URI: " + datasetUri);
+		}
 		for (String uri : dataset.listRootResources()) {
 			try {
 				frontier.add(new URI(uri));
