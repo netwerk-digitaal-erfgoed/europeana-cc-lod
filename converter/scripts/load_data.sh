@@ -21,7 +21,7 @@ print_progress "Loading data from '$input_file'..."
 
 # Explicitly check file - isql does not report errors in case of missing files
 if [ ! -f "$input_file" ]; then
-    print_error_and_exit "File '$input_file' does not exist"
+    print_error_and_exit "Input file '$input_file' does not exist"
 fi
 
 input_dir=$(dirname "$input_file")

@@ -1,0 +1,8 @@
+@base <> .
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:	<http://www.europeana.eu/schemas/edm/> .
+<http://example.org/test/01>	rdf:type	ns1:ProvidedCHO .
+@prefix dc:	<http://purl.org/dc/elements/1.1/> .
+<http://example.org/test/01>	dc:creator	"Rembrandt" ;
+	dc:title	"Painting" ;
+	dc:subject	<http://vocab.getty.edu/aat/300220415> .

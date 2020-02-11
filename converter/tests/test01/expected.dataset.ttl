@@ -1,0 +1,12 @@
+@base <> .
+@prefix rdf:	<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ns1:	<http://www.europeana.eu/schemas/edm/> .
+<http://example.org/test/01>	rdf:type	ns1:ProvidedCHO .
+@prefix ns2:	<http://purl.org/dc/terms/> .
+<http://example.org/test/01>	ns2:created	"2020-02-11" .
+@prefix dc:	<http://purl.org/dc/elements/1.1/> .
+<http://example.org/test/01>	dc:creator	<http://example.org/test/100> ;
+	dc:title	"Book" ;
+	dc:contributor	<http://example.org/test/101> ;
+	dc:publisher	<http://example.org/test/201> ;
+	dc:language	"en" .

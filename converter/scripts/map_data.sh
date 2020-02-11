@@ -19,6 +19,11 @@ check_env_and_exit_on_error "DBA_PASSWORD", $DBA_PASSWORD
 
 print_progress "Mapping data using '$mapping_file'..."
 
+# Explicitly check file - makes debugging a lot easier
+if [ ! -f "$mapping_file" ]; then
+    print_error_and_exit "Mapping file '$mapping_file' does not exist"
+fi
+
 # Explicitly remove old data in the graph before loading new data
 isql 1111 dba $DBA_PASSWORD <<EOF
 SPARQL DROP SILENT GRAPH <$graph_edm>;

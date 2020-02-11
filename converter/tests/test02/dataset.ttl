@@ -1,0 +1,10 @@
+@base <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+
+<test/01> a schema:Painting ;
+    rdfs:label "Painting" ;
+    schema:creator "Rembrandt" ;
+    schema:name "Painting" ;
+    schema:about <http://vocab.getty.edu/aat/300220415> .

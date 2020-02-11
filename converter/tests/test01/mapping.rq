@@ -1,0 +1,53 @@
+checkpoint_interval(6000);
+SPARQL
+DEFINE sql:log-enable 3
+
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+
+INSERT INTO GRAPH <http://example.org/edm/> {
+    ?uri a edm:ProvidedCHO ;
+         dc:publisher ?publisher ;
+         dc:creator ?author ;
+         dc:contributor ?contributor ;
+         dc:title ?title ;
+         dc:description ?description ;
+         dcterms:created ?created ;
+         dcterms:issued ?issued ;
+         dc:language ?language .
+}
+WHERE {
+    GRAPH <http://example.org/raw/> {
+        ?uri a ?type .
+        OPTIONAL {
+            ?uri schema:publisher ?publisher
+        }
+        OPTIONAL {
+            ?uri schema:author ?author
+        }
+        OPTIONAL {
+            ?uri schema:contributor ?contributor
+        }
+        OPTIONAL {
+            ?uri schema:name ?title
+        }
+        OPTIONAL {
+            ?uri schema:description ?description
+        }
+        OPTIONAL {
+            ?uri schema:dateCreated ?created
+        }
+        OPTIONAL {
+            ?uri schema:datePublished ?issued
+        }
+        OPTIONAL {
+            ?uri schema:inLanguage ?language
+        }
+    }
+};
+
+checkpoint_interval(120);

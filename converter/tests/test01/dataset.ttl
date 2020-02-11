@@ -1,0 +1,15 @@
+@base <http://example.org/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+
+<test/01> a schema:Book ;
+    rdfs:label "Book" ;
+    schema:author <test/100> ;
+    schema:bookFormat <http://bibliograph.net/PrintBook> ;
+    schema:contributor <test/101> ;
+    schema:inLanguage "en" ;
+    schema:name "Book" ;
+    schema:publisher <test/201> ;
+    schema:dateCreated "2020-02-11" ;
+    owl:sameAs <test/12> .

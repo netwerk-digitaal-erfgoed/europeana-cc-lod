@@ -5,7 +5,7 @@ Created for the Europeana Common Culture LOD aggregation pilot.
 
 Setup based on SPARQL UPDATE queries on Virtuoso endpoint.
 
-## Install the `.env` file
+## Create the `.env` file
 
     cd ./converter
     cp env.dist .env
@@ -92,3 +92,9 @@ NB: the current parameters are tuned for an 8Gb environment.
     VIRT_Parameters_DirsAllowed=.,../vad,/opt/converter,/opt/europeana_cc_lod_share
 
 For more information about the possible settings: http://docs.openlinksw.com/virtuoso/dbadm/
+
+## Test the converter
+
+This script will read the directories in `tests` and attempt to convert each `dataset.ttl` with mapping `mapping.rq` to an output file that matches the contents of `expected.dataset.ttl`.
+
+    docker exec -it converter /bin/bash /opt/converter/tests/test-conversion.sh
