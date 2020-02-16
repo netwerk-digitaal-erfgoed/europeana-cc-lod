@@ -1,25 +1,25 @@
-## This SPARQL script converts raw schema data to edm RDF expressions 
-## 
-## This script is configured for the Virtuoso iqsl command line.
+# This SPARQL script converts raw Schema.org data to EDM RDF expressions
+# This script is configured for the Virtuoso iqsl command line.
 
-## disable checkpoints while running script
+# Disable checkpoints while running script
 checkpoint_interval(6000);
-      
-## do a rather blunt conversion of the data
-## the sql:log is needed to prevent the overflow over the transaction log
+
+# Tell Virtuoso to prepare for a SPARQL query
 SPARQL
+
+# Prevent overflow of the transaction log
 DEFINE sql:log-enable 3
 
+# Start of the query
 PREFIX schema:  <http://schema.org/>
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX bib:     <http://bib.schema.org/>
 PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
 PREFIX dc:      <http://purl.org/dc/elements/1.1/>
-PREFIX dcterms: <http://purl.org/dc/terms/> 
+PREFIX dcterms: <http://purl.org/dc/terms/>
 
-INSERT INTO GRAPH <http://data.bibliotheken.nl/edm/>
-{
+INSERT INTO GRAPH <http://example.org/edm/> {
     ?uri a edm:ProvidedCHO ;
          dc:creator ?author ;
          dc:contributor ?illustrator ;
@@ -35,78 +35,72 @@ INSERT INTO GRAPH <http://data.bibliotheken.nl/edm/>
          edm:isShownAt ?url ;
          dcterms:isPartOf ?isPartOf ;
          dc:rights ?license ;
-         edm:currentLocation ?spatial .        
+         edm:currentLocation ?spatial .
 }
-WHERE { 
-  GRAPH <http://data.bibliotheken.nl/raw/> {
-	?uri a ?type .
-    OPTIONAL { 
+WHERE {
+  GRAPH <http://example.org/raw/> {
+	  ?uri a ?type .
+    OPTIONAL {
       ?uri bib:author ?l_author .
-      BIND( IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
+      BIND(IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
     }
     OPTIONAL {
       ?uri schema:author ?l_author .
-      BIND( IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
+      BIND(IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
     }
     OPTIONAL {
       ?uri schema:author ?l_author .
-      BIND( IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
+      BIND(IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
     }
-    
-
-    OPTIONAL { 
+    OPTIONAL {
       ?uri schema:illustrator ?l_ill .
-      BIND( IF(isLiteral(?l_ill),strlang(COALESCE(?l_ill,""),"nl"),?l_ill) as ?illustrator)
+      BIND(IF(isLiteral(?l_ill),strlang(COALESCE(?l_ill,""),"nl"),?l_ill) as ?illustrator)
     }
-
-    OPTIONAL { 
+    OPTIONAL {
       ?uri schema:publisher ?l_publisher .
-      BIND( IF(isLiteral(?l_publisher),strlang(COALESCE(?l_publisher,""),"nl"),?l_publisher) as ?publisher)
+      BIND(IF(isLiteral(?l_publisher),strlang(COALESCE(?l_publisher,""),"nl"),?l_publisher) as ?publisher)
     }
-    OPTIONAL { 
+    OPTIONAL {
       ?uri schema:name ?l_name .
-      BIND( IF(isLiteral(?l_name),strlang(COALESCE(?l_name,""),"nl"),?l_name) as ?name)
+      BIND(IF(isLiteral(?l_name),strlang(COALESCE(?l_name,""),"nl"),?l_name) as ?name)
     }
-    OPTIONAL { 
+    OPTIONAL {
       ?uri schema:about ?l_about .
-      BIND( IF(isLiteral(?l_about),strlang(COALESCE(?l_about,""),"nl"),?l_about) as ?about)
+      BIND(IF(isLiteral(?l_about),strlang(COALESCE(?l_about,""),"nl"),?l_about) as ?about)
     }
-    OPTIONAL { 
-      ?uri schema:description ?l_desc 
-      BIND( IF(isLiteral(?l_desc),strlang(COALESCE(?l_desc,""),"nl"),?l_desc) as ?description)
+    OPTIONAL {
+      ?uri schema:description ?l_desc
+      BIND(IF(isLiteral(?l_desc),strlang(COALESCE(?l_desc,""),"nl"),?l_desc) as ?description)
     }
-    OPTIONAL { 
-      ?uri schema:dateCreated ?l_created 
-      BIND( IF(isLiteral(?l_created),strlang(COALESCE(?l_created,""),"nl"),?l_created) as ?created)
+    OPTIONAL {
+      ?uri schema:dateCreated ?l_created
+      BIND(IF(isLiteral(?l_created),strlang(COALESCE(?l_created,""),"nl"),?l_created) as ?created)
     }
-
-    OPTIONAL { 
-      ?uri schema:spatialCoverage ?l_spatial 
-      BIND( IF(isLiteral(?l_spatial),strlang(COALESCE(?l_spatial,""),"nl"),?l_spatial) as ?spatial)
+    OPTIONAL {
+      ?uri schema:spatialCoverage ?l_spatial
+      BIND(IF(isLiteral(?l_spatial),strlang(COALESCE(?l_spatial,""),"nl"),?l_spatial) as ?spatial)
     }
-
-    OPTIONAL { 
-      ?uri schema:width ?l_width 
-      BIND( IF(isLiteral(?l_width),concat("width: ",?l_width),?l_width) as ?width)
+    OPTIONAL {
+      ?uri schema:width ?l_width
+      BIND(IF(isLiteral(?l_width),concat("width: ",?l_width),?l_width) as ?width)
     }
-    OPTIONAL { 
-      ?uri schema:height ?l_height 
-      BIND( IF(isLiteral(?l_height),concat("height: ",?l_height),?l_height) as ?height)
+    OPTIONAL {
+      ?uri schema:height ?l_height
+      BIND(IF(isLiteral(?l_height),concat("height: ",?l_height),?l_height) as ?height)
     }
-    OPTIONAL { 
+    OPTIONAL {
       ?uri schema:thumbnailUrl ?l_thumb
-      BIND( IRI(replace(str(?l_thumb),"role=image&size=variable","role=thumbnail")) as ?thumb )
+      BIND(IRI(replace(str(?l_thumb),"role=image&size=variable","role=thumbnail")) as ?thumb )
     }
     OPTIONAL { ?uri schema:image ?image }
     OPTIONAL { ?uri schema:url ?url }
-    OPTIONAL { 
-      ?uri schema:isPartOf ?l_isPartOf 
-      BIND( IF(isLiteral(?l_isPartOf),strlang(COALESCE(?l_isPartOf,""),"nl"),?l_isPartOf) as ?isPartOf)
+    OPTIONAL {
+      ?uri schema:isPartOf ?l_isPartOf
+      BIND(IF(isLiteral(?l_isPartOf),strlang(COALESCE(?l_isPartOf,""),"nl"),?l_isPartOf) as ?isPartOf)
     }
     OPTIONAL { ?uri schema:license ?license }
-
   }
 };
 
-## enable checkpoints after finshing the script
+# Enable checkpoints after finshing the script
 checkpoint_interval(120);

@@ -62,7 +62,7 @@ Alternatively, you can convert data that has been prepared by the crawler. This 
 
     docker exec -it converter /bin/bash /opt/converter/scripts/convert.sh \
         --input-file /opt/europeana_cc_lod_share/crawled/centsprenten.nt \
-        --mapping-file /opt/converter/mappings/my_mapping.rq \
+        --mapping-file /opt/converter/mappings/examples/kb_schema2edm.rq \
         --output-dir /opt/europeana_cc_lod_share/converted
 
 ## Stop the container

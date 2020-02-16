@@ -1,6 +1,5 @@
-## This SPARQL script converts raw Schema.org data to EDN RDF expressions
-##
-## This script is configured for the Virtuoso iqsl command line.
+# This SPARQL script converts raw Schema.org data to EDM RDF expressions
+# This script is configured for the Virtuoso iqsl command line.
 
 # Disable checkpoints while running script
 checkpoint_interval(6000);
@@ -11,36 +10,28 @@ SPARQL
 # Prevent overflow of the transaction log
 DEFINE sql:log-enable 3
 
-# Start of the actual query
+# Start of the query
 PREFIX schema:  <http://schema.org/>
 PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX edm:     <http://www.europeana.eu/schemas/edm/>
 PREFIX dc:      <http://purl.org/dc/elements/1.1/>
-#PREFIX dcterms: <http://purl.org/dc/terms/>
 
-INSERT INTO GRAPH <http://example.org/edm/>
-{
+INSERT INTO GRAPH <http://example.org/edm/> {
     ?uri a edm:ProvidedCHO ;
          dc:creator ?author ;
          dc:title ?name .
 }
 WHERE {
   GRAPH <http://example.org/raw/> {
-	?uri a ?type .
-
+	  ?uri a ?type .
     OPTIONAL {
-      ?uri schema:author ?l_author .
-      ## use this BIND statement adding language tags
-      ## BIND( IF(isLiteral(?l_author),strlang(COALESCE(?l_author,""),"nl"),?l_author) as ?author)
+      ?uri schema:author ?author .
     }
-
     OPTIONAL {
-      ?uri schema:name ?l_name .
+      ?uri schema:name ?name .
     }
-
   }
-
 };
 # Note the ';' should be here to close the SPARQL command.
 
