@@ -45,6 +45,10 @@ public class LinkedDataCrawler {
 	}
 
 	public void crawl(File outFile) throws IOException, AccessException, InterruptedException {
+		if(!outFile.getParentFile().exists())
+			outFile.getParentFile().mkdirs();
+		else if(outFile.getParentFile().exists() && outFile.isDirectory())
+			throw new IOException("Invalid parameter: Crawling 'output_file' parameter cannot be a directory: "+outFile.getPath());
 		DatasetDescription dataset = new DatasetDescription(datasetUri);
 		dataset.listRootResources();
 
