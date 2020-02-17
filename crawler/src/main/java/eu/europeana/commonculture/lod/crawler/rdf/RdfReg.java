@@ -1,7 +1,6 @@
 package eu.europeana.commonculture.lod.crawler.rdf;
 
 import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.rdf.model.ResourceFactory;
 
@@ -26,6 +25,8 @@ public final class RdfReg {
 	public static String NsVoid="http://rdfs.org/ns/void#";
 	public static String NsDqv="http://www.w3.org/ns/dqv#";
 	public static String NsOa="http://www.w3.org/ns/oa#";
+	public static String NsDcat="http://www.w3.org/ns/dcat#";
+	public static String NsProv="http://www.w3.org/ns/prov#";
 	
 	public static final Property DQV_HAS_QUALITY_ANNOTATION=ResourceFactory.createProperty(NsDqv+"hasQualityAnnotation");
 
@@ -97,7 +98,11 @@ public final class RdfReg {
 	public static final Property WGS84_LAT = ResourceFactory.createProperty(NsWgs84+"lat");
 
 	public static final Property OWL_SAME_AS = ResourceFactory.createProperty(RdfReg.NsOwl+"sameAs");
+	public static final Property OWL_EQUIVALENT_CLASS = ResourceFactory.createProperty(RdfReg.NsOwl+"equivalentClass");
+	public static final Property OWL_EQUIVALENT_PROPERTY = ResourceFactory.createProperty(RdfReg.NsOwl+"equivalentProperty");
 	public static final Resource OWL_CLASS  = ResourceFactory.createResource(NsOwl+"Class");
+	public static final Resource OWL_Thing  = ResourceFactory.createResource(NsOwl+"Thing");
+	public static final Resource OWL_Nothing  = ResourceFactory.createResource(NsOwl+"Nothing");
 	public static final Resource OWL_DATA_RANGE  = ResourceFactory.createResource(NsOwl+"DataRange");
 	public static final Resource OWL_DATA_TYPE_PROPERTY  = ResourceFactory.createResource(NsOwl+"DatatypeProperty");
 	public static final Resource OWL_FUNCTIONAL_PROPERTY  = ResourceFactory.createResource(NsOwl+"FunctionalProperty");
@@ -186,9 +191,23 @@ public final class RdfReg {
 	public static final Property SCHEMAORG_LICENSE = ResourceFactory.createProperty(NsSchemaOrg+"license");
 //	public static final Property SCHEMAORG_ = ResourceFactory.createProperty(NsSchemaOrg+"");
 	public static final Property VOID_ROOT_RESOURCE = ResourceFactory.createProperty(NsVoid+"rootResource");
+	public static final Property VOID_DATA_DUMP = ResourceFactory.createProperty(NsVoid+"dataDump");
 	public static final Property SCHEMAORG_IDENTIFIER = ResourceFactory.createProperty(NsSchemaOrg+"identifier");
 	public static final Property SCHEMAORG_NUMBER_OF_PAGES = ResourceFactory.createProperty(NsSchemaOrg+"numberOfPages");
 	public static final Property SCHEMAORG_PAGINATION = ResourceFactory.createProperty(NsSchemaOrg+"pagination");
 	public static final Property DC_IDENTIFIER = ResourceFactory.createProperty(NsDc+"identifier");
+
+	public static final Property SCHEMAORG_QUERY = ResourceFactory.createProperty(NsSchemaOrg+"query");
+	public static final Property DCAT_ACCESS_SERVICE = ResourceFactory.createProperty(NsDcat+"accessService");
+	public static final Property DCAT_DISTRIBUTION = ResourceFactory.createProperty(NsDcat+"distribution");
+	public static final Property DCAT_DOWNLOAD_URL = ResourceFactory.createProperty(NsDcat+"downloadURL");
+	public static final Property DCAT_MEDIA_TYPE = ResourceFactory.createProperty(NsDcat+"mediaType");
+	public static final Property DCAT_ENDPOINT_URL = ResourceFactory.createProperty(NsDcat+"endpointURL");
+	public static final Resource DCAT_DATA_SERVICE  = ResourceFactory.createResource(NsDcat+"DataService");
+	public static final Resource DCAT_DISTRIBUTION_CLASS  = ResourceFactory.createResource(NsDcat+"Distribution");
+	public static final Property PROV_WAS_GENERATED_BY = ResourceFactory.createProperty(NsProv+"wasGeneratedBy");
+	
+	
+	
 	
 }
