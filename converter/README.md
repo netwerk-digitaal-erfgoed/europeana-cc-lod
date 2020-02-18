@@ -65,6 +65,27 @@ Alternatively, you can convert data that has been prepared by the crawler. This 
         --mapping-file /opt/converter/mappings/examples/kb_schema2edm.rq \
         --output-dir /opt/europeana_cc_lod_share/converted
 
+## Get the converted files
+
+You can copy the converted files from the Docker container's filesystem to your local filesystem for further processing:
+
+    # Copy all files (note the trailing /. in the source directory)
+    docker cp converter:{source_directory}/. {destination_directory}
+
+    # Or copy a specific file
+    docker cp converter:{source_directory}/my_dataset_edm_000001.ttl {destination_directory}
+
+For example:
+
+    # Copy all files in your data directory to your current directory
+    docker cp converter:/opt/converter/data/converted/. .
+
+    # Or copy all files in the shared directory to your current directory
+    docker cp converter:/opt/europeana_cc_lod_share/converted/. .
+
+    # Or copy a specific file to your current directory
+    docker cp converter:/opt/converter/data/converted/my_dataset_edm_000001.ttl .
+
 ## Stop the container
 
     docker-compose stop
