@@ -37,5 +37,6 @@ start = @:CHO
        edm:provider IRI + ;
        edm:dataProvider IRI + ;
        edm:country LITERAL ;
+       dc:rights IRI ;
        edm:type [ "TEXT" "VIDEO" "SOUND" "IMAGE" "3D" ]
      }  

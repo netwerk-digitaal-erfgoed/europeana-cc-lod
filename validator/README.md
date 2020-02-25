@@ -31,7 +31,7 @@ against the ShEx expressions described in the specified ShEx (.shex) file:
 Validation off a local input file (in turtle) in ./scripts:
 
     docker-compose run --rm validator shexeval -A \ 
-        /opt/scripts/my_inputfile.ttl \
+        /opt/scripts/edm_with_errors.ttl \
         /opt/scripts/edm_validation.shex
 
 Validation off an input file (in turtle) in the shared volume (see crawler/converter docs):
