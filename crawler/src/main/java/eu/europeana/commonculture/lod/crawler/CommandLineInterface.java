@@ -56,8 +56,11 @@ public class CommandLineInterface {
 	    	String outFile = line.getOptionValue("output_file");
 	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, Integer.parseInt(line.getOptionValue("max_depth", "0")), -1); 
 			try {
-				crawler.crawl(new File(outFile));
-				result="SUCCESS";
+				int seeds=crawler.crawl(new File(outFile));
+				if(seeds==0)
+					result="FAILURE\nNo URI seeds founds";
+				else
+					result="SUCCESS";
 			} catch (IOException | AccessException | InterruptedException e) {
 				result="FAILURE\nstackTrace:\n"+ExceptionUtils.getStackTrace(e);
 			}

@@ -44,13 +44,12 @@ public class LinkedDataCrawler {
 		this.maxSeedsPerSet = maxSeedsPerSet;
 	}
 
-	public void crawl(File outFile) throws IOException, AccessException, InterruptedException {
+	public int crawl(File outFile) throws IOException, AccessException, InterruptedException {
 		if(!outFile.getParentFile().exists())
 			outFile.getParentFile().mkdirs();
 		else if(outFile.getParentFile().exists() && outFile.isDirectory())
 			throw new IOException("Invalid parameter: Crawling 'output_file' parameter cannot be a directory: "+outFile.getPath());
 		DatasetDescription dataset = new DatasetDescription(datasetUri);
-		dataset.listRootResources();
 
 		// configure crawler with the URIs from jena model
 		int totalSeeds = 0;
@@ -75,6 +74,11 @@ public class LinkedDataCrawler {
 			}
 		}
 
+		if (totalSeeds==0) {
+			System.out.println("Warning:  " + datasetUri);
+			return totalSeeds;
+		}
+		
 		ContentHandler contentHandler = new ContentHandlers(new ContentHandlerRdfXml(), new ContentHandlerNx());
 		crawler.setContentHandler(contentHandler);
 		FileWriter out = new FileWriter(outFile);
@@ -93,5 +97,6 @@ public class LinkedDataCrawler {
 		out2.flush();
 		out.close();
 		crawler.close();
+		return totalSeeds;
 	}
 }

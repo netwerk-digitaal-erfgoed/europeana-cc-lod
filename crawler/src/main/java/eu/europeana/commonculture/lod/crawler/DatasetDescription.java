@@ -22,14 +22,22 @@ public class DatasetDescription {
 	public DatasetDescription(String datasetUri) throws AccessException, InterruptedException, IOException {
 		this.datasetUri = datasetUri;
 		model = RdfUtil.readRdfFromUri(datasetUri);
+		if (model==null || !RdfUtil.contains(datasetUri, model))
+			throw new AccessException(datasetUri, "No RDF resource available for the dataset URI");
 	}
+	
+	
 
 	public List<String> listRootResources() throws AccessException, InterruptedException, IOException{
 		ArrayList<String> uris= new ArrayList<String>();
 		Resource  dsResource=model.createResource(datasetUri);
 		if (dsResource==null ) return uris;
 		StmtIterator voidRootResources = dsResource.listProperties(RdfReg.VOID_ROOT_RESOURCE);
-		voidRootResources.forEachRemaining(st -> uris.add(st.getObject().asResource().getURI()));
+		voidRootResources.forEachRemaining(st -> {
+				if(st.getObject().isURIResource())
+					uris.add(st.getObject().asResource().getURI());
+			}
+		);
 		return uris;
 	}
 

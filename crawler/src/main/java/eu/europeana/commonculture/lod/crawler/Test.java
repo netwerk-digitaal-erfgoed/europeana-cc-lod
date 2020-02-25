@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
@@ -42,61 +43,21 @@ import eu.europeana.commonculture.lod.crawler.rdf.RdfUtil;
 
 public class Test {
 	public static void main(String[] args) {
-		try {
-			String uri = "http://data.bibliotheken.nl/id/dataset/rise-centsprenten";
-			Model datasetDescModel = RdfUtil.readRdfFromUri(uri);
-			Resource  datasetDescResource = datasetDescModel.getResource(uri);
-			
-			//		configure crawler with the URIs from jena model
-			int totalSeeds=0;
-			Crawler crawler = new Crawler(5);
-//			Crawler crawler = new Crawler(CrawlerConstants.DEFAULT_NB_THREADS);
-			Frontier frontier=new BasicFrontier();
-			StmtIterator voidRootResources = datasetDescResource.listProperties(RdfReg.VOID_ROOT_RESOURCE);
-			if (voidRootResources!=null && voidRootResources.hasNext()) {
-				for( ; voidRootResources.hasNext(); ) {
-					Statement st=voidRootResources.next();
-					frontier.add(new URI(st.getObject().asNode().getURI().toString()));
-					totalSeeds++;
-					
-					if(totalSeeds>=3)
-						break;
-				}
-			} else { //try a Distribution of the dataset
-				throw new RuntimeException("TODO");
+			String result="";
+			String dsUri = "http://data.bibliotheken.nl/id/dataset/rise-centsprenten";
+//			String dsUri = "http://data.bibliotheken.nl/id/dataset/rise-childrensbooks";
+			String logFilePath = "target/log-crawler.txt";
+			String outFile = "target/crawl-test.nt";
+	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, 0, -1); 
+			try {
+				int seeds=crawler.crawl(new File(outFile));
+				if(seeds==0)
+					result="FAILURE\nNo URI seeds found";
+				else
+					result="SUCCESS";
+			} catch (IOException | AccessException | InterruptedException e) {
+				result="FAILURE\nstackTrace:\n"+ExceptionUtils.getStackTrace(e);
 			}
-			
-			ContentHandler contentHandler = new ContentHandlers(new ContentHandlerRdfXml(), new ContentHandlerNx());
-			crawler.setContentHandler(contentHandler);
-			FileWriter out=new FileWriter(new File("target/centsprenten.nt"));
-			BufferedWriter out2 = new BufferedWriter(out);
-			CallbackTriplesQuadsBufferedWriter writer=new CallbackTriplesQuadsBufferedWriter(out2, false, Lang.NTRIPLES);
-//			CallbackNtriplesBufferedWriter writer=new CallbackNtriplesBufferedWriter(out2, false);
-			Sink sink = new SinkCallback(writer, false);
-			crawler.setOutputCallback(sink);		
-			LinkFilterDomain linkFilter = new LinkFilterDomain(frontier);  
-			linkFilter.addHost("http://data.bibliotheken.nl/");  
-			crawler.setLinkFilter(linkFilter);
-			
-			//		crawl and dum to n-triples
-			int depth = 0;
-			int maxURIs = totalSeeds*20;
-			
-			crawler.evaluateBreadthFirst(frontier, new HashSetSeen(), new HashTableRedirects(), depth, maxURIs, -1, -1, false);
-			out2.flush();
-			out.close();
-			HttpRequestService.INSTANCE.close();
-			crawler.close();
-		} catch (AccessException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+			System.out.println(result);
 	}
 }

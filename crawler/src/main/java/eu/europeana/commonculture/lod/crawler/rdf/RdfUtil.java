@@ -178,13 +178,6 @@ public class RdfUtil {
 //	public static final String UTF8_BOM = "\uFEFF";
 	public static Model readRdfFromUri(String uri) throws AccessException, InterruptedException, IOException {
 		HttpRequest rdfReq = HttpUtil.makeRequest(uri, "Accept", CONTENT_TYPES_ACCEPT_HEADER);
-		
-		
-		
-//		if(rdfString.startsWith(UTF8_BOM)) {
-//			rdfString = rdfString.substring(1);
-//	    }
-//		System.out.println(rdfString);
 		return readRdf(new HttpResponse(rdfReq));
 	}
 
