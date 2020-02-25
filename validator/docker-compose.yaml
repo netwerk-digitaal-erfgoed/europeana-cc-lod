@@ -1,0 +1,14 @@
+version: "3"
+services:
+  validator:
+    image: validator:latest
+    build: .
+    container_name: validator
+    restart: always
+    volumes:
+      - europeana_cc_lod_share:/opt/europeana_cc_lod_share
+      - ./scripts:/opt/scripts
+    #entrypoint: shexeval
+volumes:
+  europeana_cc_lod_share:
+    external: true
