@@ -44,8 +44,8 @@ import eu.europeana.commonculture.lod.crawler.rdf.RdfUtil;
 public class Test {
 	public static void main(String[] args) {
 			String result="";
-			String dsUri = "http://data.bibliotheken.nl/id/dataset/rise-centsprenten";
-//			String dsUri = "http://data.bibliotheken.nl/id/dataset/rise-childrensbooks";
+//			String dsUri = "http://data.bibliotheken.nl/id/dataset/rise-centsprenten";
+			String dsUri = "http://data.bibliotheken.nl/id/dataset/rise-childrensbooks";
 			String logFilePath = "target/log-crawler.txt";
 			String outFile = "target/crawl-test.nt";
 	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, 0, -1); 

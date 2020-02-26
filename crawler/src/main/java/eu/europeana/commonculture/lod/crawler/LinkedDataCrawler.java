@@ -75,7 +75,7 @@ public class LinkedDataCrawler {
 		}
 
 		if (totalSeeds==0) {
-			System.out.println("Warning:  " + datasetUri);
+			crawler.close();
 			return totalSeeds;
 		}
 		
