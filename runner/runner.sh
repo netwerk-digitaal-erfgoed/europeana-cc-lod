@@ -62,9 +62,9 @@ docker exec -it converter /bin/bash /opt/converter/scripts/convert.sh \
     --mapping-file $mapping_file \
     --output-dir $output_dir_converter
 
-print_progress "Copying converted files to directory '${output_dir}'"
+print_progress "Copying converted files to directory '${output_dir}'..."
 
-mkdir -p $$output_dir
+mkdir -p $output_dir
 
 docker cp converter:$output_dir_converter/. $output_dir
 
