@@ -58,7 +58,7 @@ public class CommandLineInterface {
 			try {
 				int seeds=crawler.crawl(new File(outFile));
 				if(seeds==0)
-					result="FAILURE\nNo URI seeds founds";
+					result="FAILURE\nNo URI seeds found";
 				else
 					result="SUCCESS";
 			} catch (IOException | AccessException | InterruptedException e) {
