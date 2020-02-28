@@ -7,7 +7,7 @@ services:
     restart: always
     volumes:
       - europeana_cc_lod_share:/opt/europeana_cc_lod_share
-      - ./scripts:/opt/scripts
+      - .:/opt/validator
     #entrypoint: shexeval
 volumes:
   europeana_cc_lod_share:
