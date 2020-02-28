@@ -1,0 +1,108 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+@prefix edm: <http://www.europeana.eu/schemas/edm/> .
+@prefix kb_gvn: <http://data.bibliotheken.nl/id/gvn/> .
+@prefix kb_resolver: <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:> .
+@prefix kb_thes: <http://data.bibliotheken.nl/id/thes/> .
+
+kb_gvn:KONB14Borms0001
+    dc:contributor ""@nl ;
+    dc:creator ""@nl ;
+    dc:description "Oblong centsprent met 2 omkaderde houtsneden. Op de linkerzijde een afbeelding van Jezus aan het kruis en een vrouw  aan zijn voeten, met een gebed waarin de zegen voor het huis wordt gevraagd. Aan de rechterzijde het opschrift: Mirakuleus beeld van O.-L.-V. te Scherpenheuvel ;  Image miraculeuse de N.-D. à Montaigu, met een afbeelding van Maria met kind in een boom, twee mensen geknield eronder, een koepelkerk en een processie in de achtergrond, en een gebed eronder."@nl ;
+    dc:publisher "Beersmans-Pleek"@nl ;
+    dc:rights <http://creativecommons.org/publicdomain/zero/1.0/> ;
+    dc:subject "Centsprenten"@nl, "Christelijke verhalen"@nl, "De godzalige huiszegen"@nl, "Jezus Christus"@nl, "Kunst en cultuur"@nl, "Literatuur"@nl, "Maria"@nl, "Tweetalige uitgaven"@nl ;
+    dc:title "De godzalige huiszegen"@nl ;
+    dcterms:created "tussen 1866-1897"@nl ;
+    dcterms:extent "height: 43", "width: 33" ;
+    dcterms:isPartOf "Centsprenten van de Koninklijke Bibliotheek"@nl ;
+    dcterms:spatial "Turnhout"@nl ;
+    edm:country "nl" ;
+    edm:dataProvider kb_thes:p075301482 ;
+    edm:isShownAt kb_resolver:Borms0001 ;
+    edm:isShownBy <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0001&role=image&size=variable> ;
+    edm:preview <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0001&role=thumbnail> ;
+    edm:provider kb_thes:p075301482 ;
+    edm:type "IAGE" ;
+    a edm:ProvidedCHO, edm:aggregatedCHO .
+
+kb_gvn:KONB14Borms0002
+    dc:contributor ""@nl ;
+    dc:creator ""@nl ;
+    dc:publisher "Franciscus Anthonius Beersmans"@nl ;
+    dc:rights <http://creativecommons.org/publicdomain/zero/1.0/> ;
+    dc:subject "Centsprenten"@nl, "Christelijke verhalen"@nl, "Jezus Christus"@nl, "Kunst en cultuur"@nl, "Literatuur"@nl, "Maria"@nl, "Mirakuleus beeld van O.-L.-V. te Scherpenheuvel"@nl, "Tweetalige uitgaven"@nl ;
+    dcterms:created "tussen 1866-1897"@nl ;
+    dcterms:extent "height: 39", "width: 34" ;
+    dcterms:isPartOf "Centsprenten van de Koninklijke Bibliotheek"@nl ;
+    dcterms:spatial "Turnhout"@nl ;
+    edm:country "nl" ;
+    edm:dataProvider kb_thes:p075301482 ;
+    edm:isShownAt kb_resolver:Borms0002 ;
+    edm:isShownBy <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0002&role=image&size=variable> ;
+    edm:preview <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0002&role=thumbnail> ;
+    edm:provider kb_thes:p075301482 ;
+    edm:type "IMAGE" ;
+    a edm:ProvidedCHO, edm:aggregatedCHO .
+
+kb_gvn:KONB14Borms0003
+    dc:contributor ""@nl ;
+    dc:creator ""@nl ;
+    dc:description "Oblong centsprent met 2 x 4 omkaderde houtsneden van mensen met gigantische neuzen. De 'bemols' zijn de noten op het blad van een violist. Bevat tweeregelige rijmende onderschriften in Nederlands en Frans."@nl ;
+    dc:publisher "Franciscus Anthonius Beersmans"@nl ;
+    dc:rights <http://creativecommons.org/publicdomain/zero/1.0/> ;
+    dc:subject "Centsprenten"@nl, "Karikaturen"@nl, "Kunst en cultuur"@nl, "Literatuur"@nl, "Mijn neus wijst mij de bemols aan"@nl, "Neuzen"@nl, "Spotprenten"@nl, "Tweetalige uitgaven"@nl ;
+    dc:title "Mijn neus wijst mij de bemols aan"@nl ;
+    dcterms:created "tussen 1866-1897"@nl ;
+    dcterms:extent "height: 42", "width: 33" ;
+    dcterms:isPartOf "Centsprenten van de Koninklijke Bibliotheek"@nl ;
+    dcterms:spatial "Turnhout"@nl ;
+    edm:isShownAt kb_resolver:Borms0003 ;
+    edm:isShownBy <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0003&role=image&size=variable> ;
+    edm:preview <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0003&role=thumbnail> ;
+    edm:provider kb_thes:p075301482 ;
+    edm:type "IMAGE" ;
+    a edm:ProvidedCHO, edm:aggregatedCHO .
+
+kb_gvn:KONB14Borms0004
+    dc:contributor ""@nl ;
+    dc:creator ""@nl ;
+    dc:description "Centsprent met 4 x 3 omkaderde houtsneden van kinderen in hun spel en bezigheden: een sneeuwbal maken, soldaatje spelen, lezen, vliegeren, schaatsen, met een speeldoosje spelen, mama's naamfeest, was ophangen, luieren, uit een boom vallen, met blokken spelen, in de tuin. Bevat tweeregelige rijmende onderschriften in Nederlands en Frans."@nl ;
+    dc:publisher "Franciscus Anthonius Beersmans"@nl ;
+    dc:subject "Centsprenten"@nl, "Kunst en cultuur"@nl, "Literatuur"@nl, "Spel"@nl, "Tweetalige uitgaven"@nl, "Waar dient die witte bal voor Jan?"@nl ;
+    dc:title "Waar dient die witte bal voor Jan?"@nl ;
+    dcterms:created "tussen 1866-1897"@nl ;
+    dcterms:extent "height: 32", "width: 43" ;
+    dcterms:isPartOf "Centsprenten van de Koninklijke Bibliotheek"@nl ;
+    dcterms:spatial "Turnhout"@nl ;
+    edm:country "nl" ;
+    edm:dataProvider kb_thes:p075301482 ;
+    edm:isShownAt kb_resolver:Borms0004 ;
+    edm:isShownBy <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0004&role=image&size=variable> ;
+    edm:preview <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0004&role=thumbnail> ;
+    edm:provider kb_thes:p075301482 ;
+    edm:type "IMAGE" ;
+    a edm:ProvidedCHO, edm:aggregatedCHO .
+
+kb_gvn:KONB14Borms0005
+    dc:contributor ""@nl ;
+    dc:creator ""@nl ;
+    dc:description "Oblong centsprent met 3 x 4 omkaderde houtsneden met bezigheden uit het leven van kinderen: een nieuwjaarsbrief schrijven, de hond wat lekkers geven, buiten spelen, haasje over, een vogeltje uit de kooi laten,  verdriet over een kapotte pop, les op school, bij de hond zitten, een konijn bij de oren optillen, hout halen, de poes lokken, een lei tonen. Bevat tweeregelige rijmende onderschriften in Nederlands en Frans."@nl ;
+    dc:publisher "Franciscus Anthonius Beersmans"@nl ;
+    dc:rights <http://creativecommons.org/publicdomain/zero/1.0/> ;
+    dc:subject "Centsprenten"@nl, "Kunst en cultuur"@nl, "Literatuur"@nl, "Spel"@nl, "Tweetalige uitgaven"@nl, "t Is Nieuwjaar, ziet toch eens hoe lief"@nl ;
+    dc:title "t Is Nieuwjaar, ziet toch eens hoe lief"@nl ;
+    dcterms:created "tussen 1866-1897"@nl ;
+    dcterms:extent "height: 43", "width: 33" ;
+    dcterms:isPartOf "Centsprenten van de Koninklijke Bibliotheek"@nl ;
+    dcterms:spatial "Turnhout"@nl ;
+    edm:country "nl" ;
+    edm:dataProvider kb_thes:p075301482 ;
+    edm:isShownAt kb_resolver:Borms0005 ;
+    edm:isShownBy <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0005&role=image&size=variable> ;
+    edm:preview <http://resolver.kb.nl/resolve?urn=urn:gvn:KONB14:BORMS0005&role=thumbnail> ;
+    edm:provider kb_thes:p075301482 ;
+    edm:type "IMAGE" ;
+    a edm:ProvidedCHO, edm:aggregatedCHO .
+

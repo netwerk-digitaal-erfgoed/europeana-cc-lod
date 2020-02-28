@@ -1,0 +1,42 @@
+PREFIX :       <http://example.org/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+
+start = @:CHO
+
+:CHO_title IRI
+  { dc:title LITERAL + } OR 
+  { dc:description LITERAL + }
+
+:CHO_subject IRI
+  { dc:subject LITERAL + } OR 
+  { dc:type LITERAL + } OR
+  { dcterms:spatial LITERAL + } OR 
+  { dcterms:temporal LITERAL + }
+
+:CHO_shown IRI
+  { edm:isShownAt IRI } OR 
+  { edm:isShownBy IRI }
+
+:CHO_lang IRI 
+  { edm:type [ "TEXT" ];
+    dc:language LITERAL +
+  }
+  OR
+  { edm:type [ . -"TEXT" ] }
+
+:CHO @:CHO_title AND 
+     @:CHO_subject AND 
+     @:CHO_shown AND
+	   @:CHO_lang AND IRI {
+       a [ edm:ProvidedCHO ];
+       a [ edm:aggregatedCHO ];
+       edm:provider IRI + ;
+       edm:dataProvider IRI + ;
+       edm:country LITERAL ;
+       dc:rights IRI ;
+       edm:type [ "TEXT" "VIDEO" "SOUND" "IMAGE" "3D" ]
+     }  
