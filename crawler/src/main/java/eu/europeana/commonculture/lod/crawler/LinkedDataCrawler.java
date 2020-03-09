@@ -31,10 +31,16 @@ public class LinkedDataCrawler {
 	String datasetUri;
 	int maxDepth = 0;
 	int maxSeedsPerSet = -1;
-
+	boolean datasetDescriptionOnly=false;
+	
 	public LinkedDataCrawler(String uri) {
 		super();
 		this.datasetUri = uri;
+	}
+	
+	public LinkedDataCrawler(String uri, boolean datasetDescriptionOnly) {
+		this(uri);
+		this.datasetDescriptionOnly = datasetDescriptionOnly;
 	}
 
 	public LinkedDataCrawler(String uri, int maxDepth, int maxSeedsPerSet) {
@@ -63,20 +69,21 @@ public class LinkedDataCrawler {
 		} catch (URISyntaxException e) {
 			System.out.println("Warning: Resource not crawled due to an invalid URI: " + datasetUri);
 		}
-		for (String uri : dataset.listRootResources()) {
-			try {
-				frontier.add(new URI(uri));
-				totalSeeds++;
-				if (maxSeedsPerSet > 0 && totalSeeds >= maxSeedsPerSet)
-					break;
-			} catch (URISyntaxException e) {
-				System.out.println("Warning: Resource not crawled due to an invalid URI: " + uri);
+		if(!datasetDescriptionOnly) {
+			for (String uri : dataset.listRootResources()) {
+				try {
+					frontier.add(new URI(uri));
+					totalSeeds++;
+					if (maxSeedsPerSet > 0 && totalSeeds >= maxSeedsPerSet)
+						break;
+				} catch (URISyntaxException e) {
+					System.out.println("Warning: Resource not crawled due to an invalid URI: " + uri);
+				}
 			}
-		}
-
-		if (totalSeeds==0) {
-			System.out.println("Warning:  " + datasetUri);
-			return totalSeeds;
+			if (totalSeeds==0) {
+				crawler.close();
+				return totalSeeds;
+			}
 		}
 		
 		ContentHandler contentHandler = new ContentHandlers(new ContentHandlerRdfXml(), new ContentHandlerNx());

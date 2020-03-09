@@ -48,7 +48,8 @@ public class Test {
 //			String dsUri = "http://data.bibliotheken.nl/id/dataset/rise-childrensbooks";
 			String logFilePath = "target/log-crawler.txt";
 			String outFile = "target/crawl-test.nt";
-	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, 0, -1); 
+//	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, 0, -1); 
+	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, true); 
 			try {
 				int seeds=crawler.crawl(new File(outFile));
 				if(seeds==0)

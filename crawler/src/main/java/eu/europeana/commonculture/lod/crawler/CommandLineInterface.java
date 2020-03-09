@@ -29,6 +29,7 @@ public class CommandLineInterface {
 		// create the Options
 		Options options = new Options();
 		options.addOption( "dataset_uri", true, "URI of dataset to crawl.");
+		options.addOption( "dataset_description_only", false, "Crawl only the dataset URI");
 		options.addOption( "output_file", true, "Path to the output file.");
 		options.addOption( "max_depth", true, "Set a limit for the crawling depth. Default is 0.");
 		options.addOption( "log_file", true, "Write a log with the result of the crawl. If ommited no log is created.");
@@ -54,11 +55,12 @@ public class CommandLineInterface {
 	    	logFilePath = line.getOptionValue("log_file");
 	    	String dsUri = line.getOptionValue("dataset_uri");
 	    	String outFile = line.getOptionValue("output_file");
+	    	boolean datasetDescriptionOnly = line.hasOption("dataset_description_only");
 	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, Integer.parseInt(line.getOptionValue("max_depth", "0")), -1); 
 			try {
 				int seeds=crawler.crawl(new File(outFile));
-				if(seeds==0)
-					result="FAILURE\nNo URI seeds founds";
+				if(seeds==0 && !datasetDescriptionOnly)
+					result="FAILURE\nNo URI seeds found";
 				else
 					result="SUCCESS";
 			} catch (IOException | AccessException | InterruptedException e) {
