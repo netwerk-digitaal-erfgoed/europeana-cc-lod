@@ -56,7 +56,11 @@ public class CommandLineInterface {
 	    	String dsUri = line.getOptionValue("dataset_uri");
 	    	String outFile = line.getOptionValue("output_file");
 	    	boolean datasetDescriptionOnly = line.hasOption("dataset_description_only");
-	    	LinkedDataCrawler crawler=new LinkedDataCrawler(dsUri, Integer.parseInt(line.getOptionValue("max_depth", "0")), -1); 
+	    	LinkedDataCrawler crawler=null; 
+	    	if(datasetDescriptionOnly)
+	    		crawler=new LinkedDataCrawler(dsUri, datasetDescriptionOnly);
+	    	else
+	    		crawler=new LinkedDataCrawler(dsUri, Integer.parseInt(line.getOptionValue("max_depth", "0")), -1);
 			try {
 				int seeds=crawler.crawl(new File(outFile));
 				if(seeds==0 && !datasetDescriptionOnly)
