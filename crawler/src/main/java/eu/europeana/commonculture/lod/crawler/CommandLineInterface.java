@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.logging.LogManager;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -24,6 +25,7 @@ public class CommandLineInterface {
 
 //CommandLineInterface --dataset_uri http://data.bibliotheken.nl/id/dataset/rise-centsprenten --output_file ./data/crawled/rise-centsprenten.nt
 	public static void main(String[] args) {
+		LogManager.getLogManager().reset();
 		CommandLineParser parser = new DefaultParser();
 
 		// create the Options
